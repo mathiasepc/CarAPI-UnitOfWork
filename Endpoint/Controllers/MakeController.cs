@@ -1,4 +1,6 @@
-﻿using Endpoint.Utilities.Interface;
+﻿using AutoMapper;
+using Endpoint.Controllers.Resources;
+using Endpoint.Utilities.Interface;
 using Endpoint.Utilities.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,13 +12,17 @@ namespace Endpoint.Controllers;
 public class MakeController : ControllerBase
 {
     private readonly IRepo _repository;
-    public MakeController(IRepo repo) 
+    private readonly IMapper _mapper;
+    public MakeController(IRepo repo, IMapper mapper) 
     {
+        _mapper = mapper;
         _repository = repo;
     }
     [HttpGet("makes")]
-    public async Task<IEnumerable<Make>> GetMakes()
+    public async Task<IEnumerable<MakeResource>> GetMakes()
     {
-        return await _repository.GetMake();
+        var makes = await _repository.GetMake();
+
+        return _mapper.Map<IEnumerable<Make>, IEnumerable<MakeResource>>(makes);
     }
 }
