@@ -18,10 +18,10 @@ public class MakeController : ControllerBase
         _repository = repo;
     }
     [HttpGet("makes")]
-    public async Task<IEnumerable<MakeResource>> GetMakes()
+    public async Task<ActionResult<IEnumerable<MakeResource>>> GetMakes()
     {
         var makes = await _repository.GetMake();
 
-        return _mapper.Map<IEnumerable<Make>, IEnumerable<MakeResource>>(makes);
+        return Ok(_mapper.Map<IEnumerable<Make>, IEnumerable<MakeResource>>(makes));
     }
 }
