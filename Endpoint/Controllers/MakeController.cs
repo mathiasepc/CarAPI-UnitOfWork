@@ -2,7 +2,6 @@
 using Endpoint.Controllers.Resources;
 using Endpoint.Utilities.Interface;
 using Endpoint.Utilities.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Endpoint.Controllers;

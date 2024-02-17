@@ -12,7 +12,7 @@ public class Make
     public ICollection<Model> Models { get; set; }
 
     /// <summary>
-    /// Avoids null reference
+    /// Vi undgår nullreference
     /// </summary>
     public Make()
     {

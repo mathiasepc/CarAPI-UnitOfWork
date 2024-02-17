@@ -9,7 +9,7 @@ public class MakeResource
     public ICollection<ModelResource> Models { get; set; }
 
     /// <summary>
-    /// Avoids null reference
+    /// Vi undgår nullreference
     /// </summary>
     public MakeResource()
     {
