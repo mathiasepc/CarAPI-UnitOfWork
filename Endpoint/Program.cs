@@ -1,14 +1,15 @@
 using Endpoint.Repository.Database;
+using Endpoint.Repository.Repositories;
+using Endpoint.Utilities.Interface;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
+builder.Services.AddScoped<IRepo, Repo>();
 
 // Add services to the container.
-
 
 
 builder.Services.AddDbContext<DatabaseContext>(options =>
