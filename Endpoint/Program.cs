@@ -1,20 +1,27 @@
+using Endpoint.Mapping;
 using Endpoint.Repository.Database;
+using Endpoint.Repository.Repositories;
+using Endpoint.Utilities.Interface;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
+// Tilføj Controller.
 builder.Services.AddControllers();
+builder.Services.AddScoped<IRepo, Repo>();
 
-// Add services to the container.
+//Tilføjer AutoMapper.
+builder.Services.AddAutoMapper(cfg =>
+{
+    cfg.AddProfile<MappingProfile>(); // Tilføjer din MappingProfile
+}, typeof(StartupBase));
 
-
-
+// Tilføjer databasen.
 builder.Services.AddDbContext<DatabaseContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("MathiasConnection"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("MathiasConnection")); // Tilføj ConnectionString
 });
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
