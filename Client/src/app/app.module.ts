@@ -12,7 +12,7 @@ import { NavbarComponent } from './SharePages/navbar/navbar.component';
 import { HttpClientModule } from '@angular/common/http';
 
 // Providers
-import { MakeService } from './services/make.service';
+import { VehicleService } from './services/vehicle.service';
 
 @NgModule({
   declarations: [
@@ -27,7 +27,7 @@ import { MakeService } from './services/make.service';
     FormsModule
   ],
   providers: [
-    MakeService
+    VehicleService
   ],
   bootstrap: [AppComponent]
 })

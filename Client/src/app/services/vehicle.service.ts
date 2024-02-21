@@ -1,18 +1,22 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Environment } from '../Environment/Environment';
 import { Observable } from 'rxjs';
+import { Environment } from '../Environment/Environment';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class MakeService {
+export class VehicleService {
   private baseURL = Environment.APIurl;
 
   constructor(private http: HttpClient) { }
 
   getMakes(): Observable<any[]>{
-    return this.http.get<any[]>(this.baseURL + 'Make/makes');
+    return this.http.get<any[]>(this.baseURL + 'Make');
+  }
+
+  getFeatures(): Observable<any[]>{
+    return this.http.get<any[]>(this.baseURL + 'Make');
   }
 }

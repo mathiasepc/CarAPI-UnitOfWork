@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MakeService } from 'src/app/services/make.service';
+import { VehicleService } from 'src/app/services/vehicle.service';
 
 
 @Component({
@@ -10,14 +10,27 @@ import { MakeService } from 'src/app/services/make.service';
 export class VehicleFormComponent implements OnInit {
   makes: any[] = [];
   models: any[] = [];
+  features: any[] = [];
   // Indeholder valgte fra make select.
   vehicle: any = {};
 
-  constructor(private makeService: MakeService){}
+  constructor(private vehicleS: VehicleService){}
 
   ngOnInit(): void {
-    this.makeService.getMakes().subscribe(makes =>
-      this.makes = makes);
+    //Henter make og relateret modeller. Relateret modeller kommer i models.
+    this.vehicleS.getMakes().subscribe({
+      next:(makes => {
+        this.makes = makes;
+      }),
+      error:(error =>{
+        console.log(error);
+      })
+    });
+
+    this.vehicleS.getFeatures().subscribe({
+      next:(features => this.features = features),
+      error:(error => console.log(error))
+    })
   }
 
   // change event metoden.

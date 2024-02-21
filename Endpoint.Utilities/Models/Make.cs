@@ -5,7 +5,13 @@ namespace Endpoint.Utilities.Models;
 
 public class Make
 {
-    public Guid Id { get; set; }
+    private Guid _id;
+
+    public Guid Id
+    {
+        get { return _id; }
+        set { _id = value; }
+    }
     [Required]
     [StringLength(255)]
     public string Name { get; set; }
@@ -17,6 +23,7 @@ public class Make
     public Make()
     {
         Models = new Collection<Model>();
+        _id = Guid.NewGuid();
     }
 }
 
