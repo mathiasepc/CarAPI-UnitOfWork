@@ -22,8 +22,8 @@ public class Make
     /// </summary>
     public Make()
     {
-        Models = new Collection<Model>();
         _id = Guid.NewGuid();
+        Models = new Collection<Model>();
     }
 }
 

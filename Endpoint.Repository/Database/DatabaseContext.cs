@@ -10,4 +10,6 @@ public class DatabaseContext : DbContext
 
     //Så længe, at Model er konfigureret rigtigt. Behøver jeg kun at istansiere Makes tabel.
     public DbSet<Make>  Makes { get; set; }
+    public DbSet<Model> Models { get; set; }
+    public DbSet<Featured> Featureds { get; set; }
 }

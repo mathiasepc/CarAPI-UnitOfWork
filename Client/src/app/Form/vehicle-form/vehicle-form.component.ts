@@ -28,7 +28,10 @@ export class VehicleFormComponent implements OnInit {
     });
 
     this.vehicleS.getFeatures().subscribe({
-      next:(features => this.features = features),
+      next:(features => {
+        this.features = features
+        this.features.forEach(feature => console.log(feature))
+      }),
       error:(error => console.log(error))
     })
   }

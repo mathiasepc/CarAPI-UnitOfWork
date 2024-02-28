@@ -3,8 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Endpoint.Utilities.Models;
 
-[Table("Models")]
-public class Model
+[Table("Features")]
+public class Featured
 {
     private Guid _id;
 
@@ -17,10 +17,8 @@ public class Model
     [Required]
     [StringLength(255)]
     public string Name { get; set; }
-    public Make Make { get; set; }
-    public Guid MakeId { get; set; }
 
-    public Model()
+    public Featured()
     {
         _id = Guid.NewGuid();
     }
