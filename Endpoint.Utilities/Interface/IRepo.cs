@@ -10,5 +10,5 @@ namespace Endpoint.Utilities.Interface;
 public interface IRepo
 {
     Task<IEnumerable<Make>> GetMake();
-    Task<IEnumerable<Featured>> GetFeatured();
+    Task<IEnumerable<Features>> GetFeatured();
 }

@@ -25,6 +25,6 @@ public class FeatureController : ControllerBase
     {
         var features = await _repository.GetFeatured();
 
-        return Ok(_mapper.Map<IEnumerable<Featured>,IEnumerable<FeaturedResource>>(features));
+        return Ok(_mapper.Map<IEnumerable<Features>,IEnumerable<FeaturedResource>>(features));
     }
 }

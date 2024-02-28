@@ -4,22 +4,20 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Endpoint.Utilities.Models;
 
-[Table("Models")]
-public class Model : BaseModel
+[Table("Features")]
+public class Features : BaseModel
 {
     [Required]
     [StringLength(255)]
     public string Name { get; set; }
 
-    // Make reference 1 - M
-    public Make Make { get; set; }
-    public Guid MakeId { get; set; }
+    // Vehicle reference M - M
     public ICollection<Vehicle> Vehicles { get; set; }
 
     /// <summary>
     /// Undgår nullreference
     /// </summary>
-    public Model()
+    public Features()
     {
         Vehicles = new Collection<Vehicle>();
     }

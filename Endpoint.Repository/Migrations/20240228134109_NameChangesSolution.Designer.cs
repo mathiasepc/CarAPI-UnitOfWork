@@ -5,6 +5,7 @@ using Endpoint.Repository.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -12,9 +13,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Endpoint.Repository.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20240228134109_NameChangesSolution")]
+    partial class NameChangesSolution
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -113,8 +116,6 @@ namespace Endpoint.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ModelId");
-
                     b.ToTable("Vehicles");
                 });
 
@@ -133,6 +134,21 @@ namespace Endpoint.Repository.Migrations
                     b.ToTable("FeaturesVehicle");
                 });
 
+            modelBuilder.Entity("ModelVehicle", b =>
+                {
+                    b.Property<Guid>("ModelId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("VehiclesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ModelId", "VehiclesId");
+
+                    b.HasIndex("VehiclesId");
+
+                    b.ToTable("ModelVehicle");
+                });
+
             modelBuilder.Entity("Endpoint.Utilities.Models.Model", b =>
                 {
                     b.HasOne("Endpoint.Utilities.Models.Make", "Make")
@@ -142,17 +158,6 @@ namespace Endpoint.Repository.Migrations
                         .IsRequired();
 
                     b.Navigation("Make");
-                });
-
-            modelBuilder.Entity("Endpoint.Utilities.Models.Vehicle", b =>
-                {
-                    b.HasOne("Endpoint.Utilities.Models.Model", "Model")
-                        .WithMany("Vehicles")
-                        .HasForeignKey("ModelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Model");
                 });
 
             modelBuilder.Entity("FeaturesVehicle", b =>
@@ -170,14 +175,24 @@ namespace Endpoint.Repository.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ModelVehicle", b =>
+                {
+                    b.HasOne("Endpoint.Utilities.Models.Model", null)
+                        .WithMany()
+                        .HasForeignKey("ModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Endpoint.Utilities.Models.Vehicle", null)
+                        .WithMany()
+                        .HasForeignKey("VehiclesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Endpoint.Utilities.Models.Make", b =>
                 {
                     b.Navigation("Models");
-                });
-
-            modelBuilder.Entity("Endpoint.Utilities.Models.Model", b =>
-                {
-                    b.Navigation("Vehicles");
                 });
 #pragma warning restore 612, 618
         }
