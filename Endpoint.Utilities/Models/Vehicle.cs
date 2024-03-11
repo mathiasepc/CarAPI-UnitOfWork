@@ -9,7 +9,7 @@ public class Vehicle : BaseModel
     public bool IsRegistered { get; set; }
     public DateTime LastUpdated { get; set; }
 
-    // Complex type. Denne bliver ikke oprettet som egentabel. Men som en egenskab i vehicle
+    // Complex type. Contact bliver ikke oprettet som egentabel. Men som en egenskab i vehicle
     public Contact Contact { get; set; }
 
     // Model reference 1 - M
