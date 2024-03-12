@@ -10,17 +10,17 @@ namespace Endpoint.Controllers;
 [ApiController]
 public class VehiclesController : ControllerBase
 {
-    //private IMapper _mapper;
-    //private IRepo _repo; 
-    //public VehiclesController(IMapper mapper, IRepo repo)
-    //{
-    //    _mapper = mapper;
-    //    _repo = repo;
-    //}
+    private readonly IMapper _mapper;
+    public VehiclesController(IMapper mapper)
+    {
+        _mapper = mapper;
+    }
 
     [HttpPost]
-    public IActionResult CreateVehicle([FromBody] Vehicle vehicle)
+    public IActionResult CreateVehicle([FromBody] VehicleResource vehicleResource)
     {
+        var vehicle = _mapper.Map<VehicleResource, Vehicle>(vehicleResource);
+
         return Ok(vehicle);
     }
 }

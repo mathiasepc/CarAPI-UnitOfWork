@@ -7,7 +7,7 @@ namespace Endpoint.Utilities.Models;
 public class Vehicle : BaseModel
 {
     public bool IsRegistered { get; set; }
-    public DateTime? LastUpdated { get; set; }
+    public DateTime LastUpdated { get; set; } = DateTime.Now;
 
     // Complex type. Contact bliver ikke oprettet som egentabel. Men som en egenskab i vehicle
     public Contact Contact { get; set; }
