@@ -16,10 +16,21 @@ public class MappingProfile : Profile
         CreateMap<Model, ModelResource>();
         CreateMap<Features, FeaturedResource>();
 
-        // API Resource to Domain
+        // API Resource to Domain        
         CreateMap<VehicleResource, Vehicle>()
-            .ForMember(v => v.Contact.Name, opt => opt.MapFrom(vr => vr.ContactResource.Name))
-            .ForMember(v => v.Contact.Email, opt => opt.MapFrom(vr => vr.ContactResource.Email))
-            .ForMember(v => v.Contact.Phone, opt => opt.MapFrom(vr => vr.ContactResource.Phone));
+            .ForMember(v => v.Contact, opt => opt.MapFrom(vr => vr.ContactResource))
+            .ForMember(v => v.ModelId, opt => opt.MapFrom(vr => vr.ModelId))
+            .ForMember(v => v.Features, opt => opt.MapFrom(vr => vr.Features.Select(id => new Features { Id = id })));
+
+
+        // Complex type
+        CreateMap<ContactResource, Contact>();
+
+        
+        
+        //CreateMap<VehicleResource, Vehicle>()
+        //    .ForMember(v => v.Contact.Name, opt => opt.MapFrom(vr => vr.ContactResource.Name))
+        //    .ForMember(v => v.Contact.Email, opt => opt.MapFrom(vr => vr.ContactResource.Email))
+        //    .ForMember(v => v.Contact.Phone, opt => opt.MapFrom(vr => vr.ContactResource.Phone));
     }
 }

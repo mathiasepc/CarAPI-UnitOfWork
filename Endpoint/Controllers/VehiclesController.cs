@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Endpoint.Controllers.Resources;
-using Endpoint.Utilities.Interface;
 using Endpoint.Utilities.Models;
 using Microsoft.AspNetCore.Mvc;
 
