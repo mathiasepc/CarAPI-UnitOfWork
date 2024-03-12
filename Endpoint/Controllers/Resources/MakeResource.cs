@@ -2,9 +2,8 @@
 
 namespace Endpoint.Controllers.Resources;
 
-public class MakeResource
+public class MakeResource : BaseModelResource
 {
-    public Guid Id { get; set; }
     public string Name { get; set; }
     public ICollection<ModelResource> Models { get; set; }
 

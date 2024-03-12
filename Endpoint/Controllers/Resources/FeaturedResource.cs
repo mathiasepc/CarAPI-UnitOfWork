@@ -1,7 +1,6 @@
 ﻿namespace Endpoint.Controllers.Resources;
 
-public class FeaturedResource
+public class FeaturedResource : BaseModelResource
 {
-    public Guid Id { get; set; }
     public string Name { get; set; }
 }

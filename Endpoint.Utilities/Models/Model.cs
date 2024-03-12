@@ -14,7 +14,7 @@ public class Model : BaseModel
     // Make reference 1 - M
     public Make Make { get; set; }
     public Guid MakeId { get; set; }
-    public ICollection<Vehicle> Vehicles { get; set; }
+    public ICollection<Vehicle>? Vehicles { get; set; }
 
     /// <summary>
     /// Undgår nullreference

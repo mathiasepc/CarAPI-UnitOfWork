@@ -12,7 +12,7 @@ public class Features : BaseModel
     public string Name { get; set; }
 
     // Vehicle reference M - M
-    public ICollection<Vehicle> Vehicles { get; set; }
+    public ICollection<Vehicle>? Vehicles { get; set; }
 
     /// <summary>
     /// Undgår nullreference
