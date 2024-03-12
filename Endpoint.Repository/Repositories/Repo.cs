@@ -17,4 +17,9 @@ public class Repo : IRepo
     {
         return await _context.Makes.Include(m => m.Models).ToListAsync();
     }
+
+    public async Task<IEnumerable<Features>> GetFeatured()
+    {
+        return await _context.Features.ToListAsync();
+    }
 }

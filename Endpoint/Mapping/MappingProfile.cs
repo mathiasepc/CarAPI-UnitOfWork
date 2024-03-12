@@ -13,5 +13,7 @@ public class MappingProfile : Profile
     {
         CreateMap<Make, MakeResource>();
         CreateMap<Model, ModelResource>();
+        CreateMap<Features, FeaturedResource>();
+        CreateMap<Vehicle, VehicleResource>();
     }
 }

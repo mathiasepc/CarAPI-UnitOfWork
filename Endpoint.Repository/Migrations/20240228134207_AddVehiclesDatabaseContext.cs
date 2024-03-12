@@ -5,7 +5,7 @@
 namespace Endpoint.Repository.Migrations
 {
     /// <inheritdoc />
-    public partial class InitializeModel : Migration
+    public partial class AddVehiclesDatabaseContext : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

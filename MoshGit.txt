@@ -1,0 +1,1 @@
+https://github.com/mosh-hamedani/vega/tree/dependabot/nuget/Microsoft.AspNetCore.Mvc-1.1.3

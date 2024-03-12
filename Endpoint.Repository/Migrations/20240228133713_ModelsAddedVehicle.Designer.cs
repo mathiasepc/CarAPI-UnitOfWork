@@ -5,6 +5,7 @@ using Endpoint.Repository.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -12,9 +13,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Endpoint.Repository.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20240228133713_ModelsAddedVehicle")]
+    partial class ModelsAddedVehicle
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -23,7 +26,7 @@ namespace Endpoint.Repository.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Endpoint.Utilities.Models.Features", b =>
+            modelBuilder.Entity("Endpoint.Utilities.Models.Featured", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -113,12 +116,10 @@ namespace Endpoint.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ModelId");
-
                     b.ToTable("Vehicles");
                 });
 
-            modelBuilder.Entity("FeaturesVehicle", b =>
+            modelBuilder.Entity("FeaturedVehicle", b =>
                 {
                     b.Property<Guid>("FeaturesId")
                         .HasColumnType("uniqueidentifier");
@@ -130,7 +131,22 @@ namespace Endpoint.Repository.Migrations
 
                     b.HasIndex("VehiclesId");
 
-                    b.ToTable("FeaturesVehicle");
+                    b.ToTable("FeaturedVehicle");
+                });
+
+            modelBuilder.Entity("ModelVehicle", b =>
+                {
+                    b.Property<Guid>("ModelId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("VehiclesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ModelId", "VehiclesId");
+
+                    b.HasIndex("VehiclesId");
+
+                    b.ToTable("ModelVehicle");
                 });
 
             modelBuilder.Entity("Endpoint.Utilities.Models.Model", b =>
@@ -144,22 +160,26 @@ namespace Endpoint.Repository.Migrations
                     b.Navigation("Make");
                 });
 
-            modelBuilder.Entity("Endpoint.Utilities.Models.Vehicle", b =>
+            modelBuilder.Entity("FeaturedVehicle", b =>
                 {
-                    b.HasOne("Endpoint.Utilities.Models.Model", "Model")
-                        .WithMany("Vehicles")
-                        .HasForeignKey("ModelId")
+                    b.HasOne("Endpoint.Utilities.Models.Featured", null)
+                        .WithMany()
+                        .HasForeignKey("FeaturesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Model");
+                    b.HasOne("Endpoint.Utilities.Models.Vehicle", null)
+                        .WithMany()
+                        .HasForeignKey("VehiclesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("FeaturesVehicle", b =>
+            modelBuilder.Entity("ModelVehicle", b =>
                 {
-                    b.HasOne("Endpoint.Utilities.Models.Features", null)
+                    b.HasOne("Endpoint.Utilities.Models.Model", null)
                         .WithMany()
-                        .HasForeignKey("FeaturesId")
+                        .HasForeignKey("ModelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -173,11 +193,6 @@ namespace Endpoint.Repository.Migrations
             modelBuilder.Entity("Endpoint.Utilities.Models.Make", b =>
                 {
                     b.Navigation("Models");
-                });
-
-            modelBuilder.Entity("Endpoint.Utilities.Models.Model", b =>
-                {
-                    b.Navigation("Vehicles");
                 });
 #pragma warning restore 612, 618
         }
