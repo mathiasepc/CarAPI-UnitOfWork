@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Endpoint.Controllers.Resources;
+using Endpoint.Utilities.Interface;
 using Endpoint.Utilities.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,17 +10,30 @@ namespace Endpoint.Controllers;
 [ApiController]
 public class VehiclesController : ControllerBase
 {
-    private readonly IMapper _mapper;
-    public VehiclesController(IMapper mapper)
+    private readonly IMapper mapper;
+    private readonly IRepo repo;
+    public VehiclesController(IMapper mapper, IRepo repo)
     {
-        _mapper = mapper;
+        this.mapper = mapper;
+        this.repo = repo;
     }
 
     [HttpPost]
-    public IActionResult CreateVehicle([FromBody] VehicleResource vehicleResource)
+    public async Task<IActionResult> CreateVehicle([FromBody] VehicleResource vehicleResource)
     {
-        var vehicle = _mapper.Map<VehicleResource, Vehicle>(vehicleResource);
+        if (vehicleResource == null) return BadRequest();
 
-        return Ok(vehicle);
+        try
+        {
+            var vehicle = mapper.Map<VehicleResource, Vehicle>(vehicleResource);
+
+            var result = await repo.Insert(vehicle);
+
+            return result == true ? Ok(mapper.Map<Vehicle, VehicleResource>(vehicle)) : BadRequest();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
     }
 }
