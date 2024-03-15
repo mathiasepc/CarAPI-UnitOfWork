@@ -36,5 +36,24 @@ public class VehiclesController : ControllerBase
         {
             throw new Exception(ex.Message);
         }
-    }  
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateVehicle(Guid id, [FromBody] VehicleResource vehicleResource)
+    {
+        // ved at bruge ModelState, viser vi alle validerings fejlende til Clienten.
+        if (!ModelState.IsValid) return BadRequest(ModelState);
+
+        try
+        {
+            var vehicle = repo.GetById(id);
+            mapper.Map<VehicleResource, Vehicle>(vehicleResource, vehicle);
+
+            return result == true ? Ok(mapper.Map<Vehicle, VehicleResource>(vehicle)) : BadRequest();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
+    }
 }
