@@ -12,4 +12,5 @@ public interface IRepo
     Task<IEnumerable<Make>> GetMake();
     Task<IEnumerable<Features>> GetFeatured();
     Task<bool> Insert(Vehicle vehicle);
+    Task<Vehicle> GetById(Guid id);
 }

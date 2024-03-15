@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using Endpoint.Utilities.Models.LinkTables;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Endpoint.Utilities.Models;
@@ -16,13 +17,13 @@ public class Vehicle : BaseModel
     public Guid? ModelId { get; set; }
     public Model? Model { get; set; }
     // Features reference M - M
-    public ICollection<Features>? Features { get; set; }
+    public ICollection<VehicleFeature>? Features { get; set; }
 
     /// <summary>
     /// Undgår nullreference
     /// </summary>
     public Vehicle()
     {
-        Features = new Collection<Features>();
+        Features = new Collection<VehicleFeature>();
     }
 }

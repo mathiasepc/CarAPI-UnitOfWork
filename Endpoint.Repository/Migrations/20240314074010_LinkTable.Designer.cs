@@ -5,6 +5,7 @@ using Endpoint.Repository.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -12,9 +13,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Endpoint.Repository.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20240314074010_LinkTable")]
+    partial class LinkTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,7 +54,7 @@ namespace Endpoint.Repository.Migrations
 
                     b.HasIndex("FeatureId");
 
-                    b.ToTable("VehicleFeatures");
+                    b.ToTable("VehicleFeature");
                 });
 
             modelBuilder.Entity("Endpoint.Utilities.Models.Make", b =>
@@ -97,6 +100,9 @@ namespace Endpoint.Repository.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("FeaturesId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<bool>("IsRegistered")
                         .HasColumnType("bit");
 
@@ -128,6 +134,8 @@ namespace Endpoint.Repository.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FeaturesId");
+
                     b.HasIndex("ModelId");
 
                     b.ToTable("Vehicles");
@@ -136,7 +144,7 @@ namespace Endpoint.Repository.Migrations
             modelBuilder.Entity("Endpoint.Utilities.Models.LinkTables.VehicleFeature", b =>
                 {
                     b.HasOne("Endpoint.Utilities.Models.Features", "Feature")
-                        .WithMany("Vehicles")
+                        .WithMany()
                         .HasForeignKey("FeatureId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -165,6 +173,10 @@ namespace Endpoint.Repository.Migrations
 
             modelBuilder.Entity("Endpoint.Utilities.Models.Vehicle", b =>
                 {
+                    b.HasOne("Endpoint.Utilities.Models.Features", null)
+                        .WithMany("Vehicles")
+                        .HasForeignKey("FeaturesId");
+
                     b.HasOne("Endpoint.Utilities.Models.Model", "Model")
                         .WithMany("Vehicles")
                         .HasForeignKey("ModelId");

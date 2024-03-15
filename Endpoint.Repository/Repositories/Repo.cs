@@ -33,4 +33,9 @@ public class Repo : IRepo
 
         return true;
     }
+
+    public async Task<Vehicle> GetById(Guid id)
+    {
+        return id != null ? await _context.Vehicles.FindAsync(id) : new Vehicle();
+    }
 }

@@ -21,7 +21,8 @@ public class VehiclesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateVehicle([FromBody] VehicleResource vehicleResource)
     {
-        if (vehicleResource == null) return BadRequest();
+        // ved at bruge ModelState, viser vi alle validerings fejlende til Clienten.
+        if (!ModelState.IsValid) return BadRequest(ModelState);
 
         try
         {
@@ -35,5 +36,5 @@ public class VehiclesController : ControllerBase
         {
             throw new Exception(ex.Message);
         }
-    }
+    }  
 }
