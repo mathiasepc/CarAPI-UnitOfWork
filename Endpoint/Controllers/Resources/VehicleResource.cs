@@ -12,7 +12,7 @@ public class VehicleResource : BaseModelResource
     public ContactResource ContactResource { get; set; }
 
     // Model reference 1 - M
-    public Guid? ModelId { get; set; }
+    public Guid ModelId { get; set; }
     // Features reference M - M
     public ICollection<Guid>? Features { get; set; }
 

@@ -10,7 +10,7 @@ namespace Endpoint.Utilities.Interface;
 public interface IRepo
 {
     Task<IEnumerable<Make>> GetMake();
-    Task<IEnumerable<Features>> GetFeatured();
+    Task<IEnumerable<Feature>> GetFeatured();
     Task<bool> Insert(Vehicle vehicle);
     Task<Vehicle> GetById(Guid id);
 }

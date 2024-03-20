@@ -6,11 +6,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Endpoint.Utilities.Models;
 
 [Table("Features")]
-public class Features : BaseModel
+public class Feature : BaseModel
 {
     [Required]
     [StringLength(255)]
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     // Vehicle reference M - M
     public ICollection<VehicleFeature>? Vehicles { get; set; }
@@ -18,7 +18,7 @@ public class Features : BaseModel
     /// <summary>
     /// Undgår nullreference
     /// </summary>
-    public Features()
+    public Feature()
     {
         Vehicles = new Collection<VehicleFeature>();
     }

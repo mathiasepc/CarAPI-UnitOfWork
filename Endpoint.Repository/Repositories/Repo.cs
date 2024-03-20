@@ -18,15 +18,13 @@ public class Repo : IRepo
         return await _context.Makes.Include(m => m.Models).ToListAsync();
     }
 
-    public async Task<IEnumerable<Features>> GetFeatured()
+    public async Task<IEnumerable<Feature>> GetFeatured()
     {
         return await _context.Features.ToListAsync();
     }
 
     public async Task<bool> Insert(Vehicle vehicle)
     {
-        // Hent features på id
-
         _context.Vehicles.Add(vehicle);
 
         await _context.SaveChangesAsync();

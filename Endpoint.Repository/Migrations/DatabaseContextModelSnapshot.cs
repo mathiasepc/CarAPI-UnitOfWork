@@ -23,7 +23,7 @@ namespace Endpoint.Repository.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Endpoint.Utilities.Models.Features", b =>
+            modelBuilder.Entity("Endpoint.Utilities.Models.Feature", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -103,7 +103,7 @@ namespace Endpoint.Repository.Migrations
                     b.Property<DateTime>("LastUpdated")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("ModelId")
+                    b.Property<Guid>("ModelId")
                         .HasColumnType("uniqueidentifier");
 
                     b.ComplexProperty<Dictionary<string, object>>("Contact", "Endpoint.Utilities.Models.Vehicle.Contact#Contact", b1 =>
@@ -135,7 +135,7 @@ namespace Endpoint.Repository.Migrations
 
             modelBuilder.Entity("Endpoint.Utilities.Models.LinkTables.VehicleFeature", b =>
                 {
-                    b.HasOne("Endpoint.Utilities.Models.Features", "Feature")
+                    b.HasOne("Endpoint.Utilities.Models.Feature", "Feature")
                         .WithMany("Vehicles")
                         .HasForeignKey("FeatureId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -167,12 +167,14 @@ namespace Endpoint.Repository.Migrations
                 {
                     b.HasOne("Endpoint.Utilities.Models.Model", "Model")
                         .WithMany("Vehicles")
-                        .HasForeignKey("ModelId");
+                        .HasForeignKey("ModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Model");
                 });
 
-            modelBuilder.Entity("Endpoint.Utilities.Models.Features", b =>
+            modelBuilder.Entity("Endpoint.Utilities.Models.Feature", b =>
                 {
                     b.Navigation("Vehicles");
                 });

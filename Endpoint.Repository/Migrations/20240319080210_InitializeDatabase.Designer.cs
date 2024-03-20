@@ -13,8 +13,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Endpoint.Repository.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240228134109_NameChangesSolution")]
-    partial class NameChangesSolution
+    [Migration("20240319080210_InitializeDatabase")]
+    partial class InitializeDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,7 +26,7 @@ namespace Endpoint.Repository.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Endpoint.Utilities.Models.Features", b =>
+            modelBuilder.Entity("Endpoint.Utilities.Models.Feature", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -40,6 +40,21 @@ namespace Endpoint.Repository.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Features");
+                });
+
+            modelBuilder.Entity("Endpoint.Utilities.Models.LinkTables.VehicleFeature", b =>
+                {
+                    b.Property<Guid>("VehicleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("FeatureId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("VehicleId", "FeatureId");
+
+                    b.HasIndex("FeatureId");
+
+                    b.ToTable("VehicleFeatures");
                 });
 
             modelBuilder.Entity("Endpoint.Utilities.Models.Make", b =>
@@ -116,37 +131,28 @@ namespace Endpoint.Repository.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ModelId");
+
                     b.ToTable("Vehicles");
                 });
 
-            modelBuilder.Entity("FeaturesVehicle", b =>
+            modelBuilder.Entity("Endpoint.Utilities.Models.LinkTables.VehicleFeature", b =>
                 {
-                    b.Property<Guid>("FeaturesId")
-                        .HasColumnType("uniqueidentifier");
+                    b.HasOne("Endpoint.Utilities.Models.Feature", "Feature")
+                        .WithMany("Vehicles")
+                        .HasForeignKey("FeatureId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<Guid>("VehiclesId")
-                        .HasColumnType("uniqueidentifier");
+                    b.HasOne("Endpoint.Utilities.Models.Vehicle", "Vehicle")
+                        .WithMany("Features")
+                        .HasForeignKey("VehicleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasKey("FeaturesId", "VehiclesId");
+                    b.Navigation("Feature");
 
-                    b.HasIndex("VehiclesId");
-
-                    b.ToTable("FeaturesVehicle");
-                });
-
-            modelBuilder.Entity("ModelVehicle", b =>
-                {
-                    b.Property<Guid>("ModelId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("VehiclesId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("ModelId", "VehiclesId");
-
-                    b.HasIndex("VehiclesId");
-
-                    b.ToTable("ModelVehicle");
+                    b.Navigation("Vehicle");
                 });
 
             modelBuilder.Entity("Endpoint.Utilities.Models.Model", b =>
@@ -160,39 +166,35 @@ namespace Endpoint.Repository.Migrations
                     b.Navigation("Make");
                 });
 
-            modelBuilder.Entity("FeaturesVehicle", b =>
+            modelBuilder.Entity("Endpoint.Utilities.Models.Vehicle", b =>
                 {
-                    b.HasOne("Endpoint.Utilities.Models.Features", null)
-                        .WithMany()
-                        .HasForeignKey("FeaturesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Endpoint.Utilities.Models.Vehicle", null)
-                        .WithMany()
-                        .HasForeignKey("VehiclesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ModelVehicle", b =>
-                {
-                    b.HasOne("Endpoint.Utilities.Models.Model", null)
-                        .WithMany()
+                    b.HasOne("Endpoint.Utilities.Models.Model", "Model")
+                        .WithMany("Vehicles")
                         .HasForeignKey("ModelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Endpoint.Utilities.Models.Vehicle", null)
-                        .WithMany()
-                        .HasForeignKey("VehiclesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Model");
+                });
+
+            modelBuilder.Entity("Endpoint.Utilities.Models.Feature", b =>
+                {
+                    b.Navigation("Vehicles");
                 });
 
             modelBuilder.Entity("Endpoint.Utilities.Models.Make", b =>
                 {
                     b.Navigation("Models");
+                });
+
+            modelBuilder.Entity("Endpoint.Utilities.Models.Model", b =>
+                {
+                    b.Navigation("Vehicles");
+                });
+
+            modelBuilder.Entity("Endpoint.Utilities.Models.Vehicle", b =>
+                {
+                    b.Navigation("Features");
                 });
 #pragma warning restore 612, 618
         }

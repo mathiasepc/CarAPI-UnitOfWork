@@ -15,7 +15,7 @@ public class MappingProfile : Profile
         // Domain to API Resources
         CreateMap<Make, MakeResource>();
         CreateMap<Model, ModelResource>();
-        CreateMap<Features, FeaturedResource>();
+        CreateMap<Feature, FeaturedResource>();
         CreateMap<Vehicle, VehicleResource>()
             .ForMember(vr => vr.ContactResource, opt => opt.MapFrom(v => v.Contact))
             .ForMember(vr => vr.Features, opt => opt.MapFrom(v => v.Features.Select(vf => vf.FeatureId)));
@@ -27,6 +27,7 @@ public class MappingProfile : Profile
         // API Resource to Domain
         CreateMap<VehicleResource, Vehicle>()
             .ForMember(v => v.Contact, opt => opt.MapFrom(vr => vr.ContactResource))
+            .ForMember(v => v.ModelId, opt => opt.MapFrom(vr => vr.ModelId))
             .ForMember(v => v.Features, opt => opt.MapFrom(vr => vr.Features.Select(id => new VehicleFeature { FeatureId = id })));
     }
 }

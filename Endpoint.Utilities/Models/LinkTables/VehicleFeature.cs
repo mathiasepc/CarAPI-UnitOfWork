@@ -9,5 +9,5 @@ public class VehicleFeature
     public Vehicle Vehicle { get; set; }
 
     public Guid FeatureId { get; set; }
-    public Features Feature { get; set; }
+    public Feature Feature { get; set; }
 }
