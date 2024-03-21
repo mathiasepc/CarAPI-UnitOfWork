@@ -31,22 +31,18 @@ public class VehiclesController : ControllerBase
         return result == true ? Ok(mapper.Map<Vehicle, VehicleResource>(vehicle)) : BadRequest();
     }
 
-    //[HttpPut("{id}")]
-    //public async Task<IActionResult> UpdateVehicle(Guid id, [FromBody] VehicleResource vehicleResource)
-    //{
-    //    // ved at bruge ModelState, viser vi alle validerings fejlende til Clienten.
-    //    if (!ModelState.IsValid) return BadRequest(ModelState);
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateVehicle(Guid id, [FromBody] VehicleResource vehicleResource)
+    {
+        // ved at bruge ModelState, viser vi alle validerings fejlende til Clienten.
+        if (!ModelState.IsValid) return BadRequest(ModelState);
 
-    //    try
-    //    {
-    //        var vehicle = await repo.GetById(id);
-    //        mapper.Map(vehicleResource, vehicle);
 
-    //        //return result == true ? Ok(mapper.Map<Vehicle, VehicleResource>(vehicle)) : BadRequest();
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        throw new Exception(ex.Message);
-    //    }
-    //}
+        var vehicle = await repo.GetById(id);
+        mapper.Map(vehicleResource, vehicle);
+
+
+        return null;
+        //return result == true ? Ok(mapper.Map<Vehicle, VehicleResource>(vehicle)) : BadRequest();
+    }
 }
