@@ -23,7 +23,6 @@ public class DatabaseContext : DbContext
             .WithMany(s => s.Features)
             .HasForeignKey(sc => sc.VehicleId);
 
-
         modelBuilder.Entity<VehicleFeature>()
             .HasOne(sc => sc.Feature)
             .WithMany(s => s.Vehicles)
