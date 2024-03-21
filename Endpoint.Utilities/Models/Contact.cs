@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Endpoint.Utilities.Models;
 // Da det er en complex type, som findes i vehicle, behøver vi ikke en Key.
-[ComplexType]   
+[ComplexType]
 public class Contact
 {
     [Required]

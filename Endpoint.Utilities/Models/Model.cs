@@ -12,8 +12,8 @@ public class Model : BaseModel
     public string Name { get; set; }
 
     // Make reference 1 - M
+    public Guid? MakeId { get; set; }
     public Make Make { get; set; }
-    public Guid MakeId { get; set; }
     public ICollection<Vehicle>? Vehicles { get; set; }
 
     /// <summary>
