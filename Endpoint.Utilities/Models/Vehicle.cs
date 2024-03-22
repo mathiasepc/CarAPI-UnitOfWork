@@ -1,5 +1,6 @@
 ﻿using Endpoint.Utilities.Models.LinkTables;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Endpoint.Utilities.Models;
@@ -14,7 +15,7 @@ public class Vehicle : BaseModel
     public Contact Contact { get; set; }
 
     // Model reference 1 - M
-    public Guid? ModelId { get; set; }
+    public Guid ModelId { get; set; }
     public Model Model { get; set; }
     // Features reference M - M
     public ICollection<VehicleFeature>? Features { get; set; }

@@ -1,4 +1,6 @@
 ﻿
+using System.ComponentModel.DataAnnotations;
+
 namespace Endpoint.Utilities.Models;
 
 // BaseModel Har alle fælles properties.

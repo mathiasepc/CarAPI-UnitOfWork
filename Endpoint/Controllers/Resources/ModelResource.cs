@@ -1,10 +1,12 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Endpoint.Controllers.Resources;
 
-public class ModelResource
+public class ModelResource : BaseModelResource
 {
-    public Guid Id { get; set; }
+    [Required]
+    [StringLength(255)]
     public string Name { get; set; }
 
     public ModelResource()

@@ -12,7 +12,7 @@ public class Make : BaseModel
     public string Name { get; set; }
 
     // Model reference 1 - M
-    public ICollection<Model>? Models { get; set; }
+    public ICollection<Model> Models { get; set; }
 
     /// <summary>
     /// Undgår nullreference

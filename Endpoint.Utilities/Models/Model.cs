@@ -7,13 +7,13 @@ namespace Endpoint.Utilities.Models;
 [Table("Models")]
 public class Model : BaseModel
 {
-    [Required]
-    [StringLength(255)]
     public string Name { get; set; }
 
     // Make reference 1 - M
-    public Guid? MakeId { get; set; }
+    public Guid MakeId { get; set; }
     public Make Make { get; set; }
+
+    // Vehicle reference 1 - M
     public ICollection<Vehicle>? Vehicles { get; set; }
 
     /// <summary>

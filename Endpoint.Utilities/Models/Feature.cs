@@ -10,7 +10,7 @@ public class Feature : BaseModel
 {
     [Required]
     [StringLength(255)]
-    public string? Name { get; set; }
+    public string Name { get; set; }
 
     // Vehicle reference M - M
     public ICollection<VehicleFeature>? Vehicles { get; set; }

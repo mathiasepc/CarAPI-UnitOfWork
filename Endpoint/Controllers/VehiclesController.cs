@@ -22,7 +22,7 @@ public class VehiclesController : ControllerBase
     public async Task<IActionResult> CreateVehicle([FromBody] VehicleResource vehicleResource)
     {
         // ved at bruge ModelState, viser vi alle validerings fejlende til Clienten.
-        if (!ModelState.IsValid) return BadRequest(ModelState);
+        if (vehicleResource.ModelId == Guid.Empty) return BadRequest("Der mangler ModelId");
 
         var vehicle = mapper.Map<VehicleResource, Vehicle>(vehicleResource);
 
