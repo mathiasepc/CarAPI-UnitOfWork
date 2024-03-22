@@ -21,7 +21,7 @@ public class VehiclesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateVehicle([FromBody] VehicleResource vehicleResource)
     {
-        // ved at bruge ModelState, viser vi alle validerings fejlende til Clienten.
+        // Dataannotations griber alt undtaget ModelId.
         if (vehicleResource.ModelId == Guid.Empty) return BadRequest("Der mangler ModelId");
 
         var vehicle = mapper.Map<VehicleResource, Vehicle>(vehicleResource);
@@ -34,15 +34,13 @@ public class VehiclesController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateVehicle(Guid id, [FromBody] VehicleResource vehicleResource)
     {
-        // ved at bruge ModelState, viser vi alle validerings fejlende til Clienten.
-        if (!ModelState.IsValid) return BadRequest(ModelState);
-
+        // Dataannotations griber alt undtaget ModelId. 
+        if (vehicleResource.ModelId == Guid.Empty) return BadRequest("Der mangler ModelId"); 
 
         var vehicle = await repo.GetById(id);
+
         mapper.Map(vehicleResource, vehicle);
 
-
         return null;
-        //return result == true ? Ok(mapper.Map<Vehicle, VehicleResource>(vehicle)) : BadRequest();
     }
 }
