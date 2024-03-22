@@ -8,8 +8,4 @@ public class ModelResource : BaseModelResource
     [Required]
     [StringLength(255)]
     public string Name { get; set; }
-
-    public ModelResource()
-    {
-    }
 }
