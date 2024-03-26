@@ -10,7 +10,7 @@ public class MappingProfile : Profile
     /// <summary>
     /// Her laver jeg mapping profilerne. 
     /// </summary>
-    public MappingProfile() 
+    public MappingProfile()
     {
         // Domain to API Resources
         CreateMap<Make, MakeResource>();
@@ -32,29 +32,22 @@ public class MappingProfile : Profile
             .ForMember(v => v.Features, opt => opt.Ignore())
             .AfterMap((vr, v) =>
             {
-                // Da vi iterer over v.Features collection, i Foreach, vi kan ikke modify.
+                // Da vi iterer over v.Features/vr.features collection, vi kan ikke modify.
                 // Det vil give en throw en runtime exception.
-                // Derfor denne liste.
-                var removedFeatures = new List<VehicleFeature>();
 
-                // Gemmer unselected features i removedFeatures.
-                foreach (var feature in v.Features)
-                {
-                    if (!vr.Features.Contains(feature.FeatureId))
-                        // Tilføjer så vi kan fjerne senere.
-                        removedFeatures.Add(feature);
-                }
+                // Gemmer unselected features i removedFeatures. For så at slette.
+                var removedFeatures = v.Features.Where(f => !vr.Features.Contains(f.FeatureId)).ToList();
 
                 // Fjerner unselected features fra vehicle.
                 foreach (var feature in removedFeatures)
                     v.Features.Remove(feature);
 
-                // Tilføjer new Features til vehicle
-                foreach (var id in vr.Features)
-                {
-                    if (!v.Features.Any(f => f.FeatureId == id))
-                        v.Features.Add(new VehicleFeature { FeatureId = id });
-                }
+                // Tilføjer new Features til addFeatures
+                var addFeatures = vr.Features.Where(id => !v.Features.Any(f => f.FeatureId == id)).Select(id => new VehicleFeature { FeatureId = id}).ToList();
+                
+                // Tilføjer dem til vehicle.
+                foreach(var feature in addFeatures)
+                    v.Features.Add(feature);
             });
     }
 }

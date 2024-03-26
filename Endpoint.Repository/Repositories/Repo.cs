@@ -27,22 +27,29 @@ public class Repo : IRepo
     {
         _context.Vehicles.Add(vehicle);
 
-        await _context.SaveChangesAsync();
+        await SaveAsync();
 
         return true;
     }
 
-    public async Task<Vehicle> GetById(Guid id)
+    public async Task<Vehicle> GetVehicleById(Guid id)
     {
-        return id != null ?
-            await _context?.Vehicles.Include(v => v.Features).SingleOrDefaultAsync(v => v.Id == id) :
-            new Vehicle();
+        return id != null ? await _context?.Vehicles.Include(v => v.Features).SingleOrDefaultAsync(v => v.Id == id) : new Vehicle();
     }
 
-    public async Task<bool> UpdateAsync()
+    public async Task<bool> SaveAsync()
     {
         await _context.SaveChangesAsync();
 
         return true; 
+    }
+
+    public async Task<Guid> DeleteVehicle(Vehicle vehicle)
+    {
+        _context.Remove(vehicle);
+
+        var saveResult = await SaveAsync();
+
+        return saveResult == true ? vehicle.Id : Guid.Empty;
     }
 }

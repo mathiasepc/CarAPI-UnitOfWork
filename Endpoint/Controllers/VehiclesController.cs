@@ -3,6 +3,7 @@ using Endpoint.Controllers.Resources;
 using Endpoint.Utilities.Interface;
 using Endpoint.Utilities.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Endpoint.Controllers;
 
@@ -38,13 +39,31 @@ public class VehiclesController : ControllerBase
         // Dataannotations griber alt undtaget ModelId. 
         if (vehicleResource.ModelId == Guid.Empty) return BadRequest("Der mangler ModelId"); 
 
-        var vehicleTemp = await repo.GetById(id);
+        var vehicleTemp = await repo.GetVehicleById(id);
+
+        if (vehicleTemp == null) return NotFound();
 
         // Mapper vehicleResource til Vehicle
         var vehicle = mapper.Map(vehicleResource, vehicleTemp);
 
-        var result = await repo.UpdateAsync();
+        var result = await repo.SaveAsync();
 
         return result == true ? Ok(mapper.Map<Vehicle, VehicleResource>(vehicle)) : BadRequest("Noget gik galt da vi prøvede at gemme.");
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteVehicle(Guid id)
+    {
+        var vehicle = await repo.GetVehicleById(id);        
+
+        return vehicle == null ? NotFound("Vehicle fandtes ikke.") : Ok(await repo.DeleteVehicle(vehicle));
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetVehicles(Guid id)
+    {
+        var vehicle = await repo.GetVehicleById(id);
+
+        return vehicle == null ? NotFound("Vehicle fandtes ikke.") : Ok(mapper.Map<Vehicle, VehicleResource>(vehicle));
     }
 }
