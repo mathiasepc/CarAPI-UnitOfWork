@@ -27,7 +27,9 @@ public class Repo : IRepo
     {
         _context.Vehicles.Add(vehicle);
 
-        return _context.SaveChangesAsync().IsCompleted;
+        await _context.SaveChangesAsync();
+
+        return true;
     }
 
     public async Task<Vehicle> GetById(Guid id)
@@ -39,6 +41,8 @@ public class Repo : IRepo
 
     public async Task<bool> UpdateAsync()
     {
-        return _context.SaveChangesAsync().IsCompleted;
+        await _context.SaveChangesAsync();
+
+        return true; 
     }
 }
