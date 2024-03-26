@@ -14,5 +14,5 @@ public interface IRepo
     Task<bool> Insert(Vehicle vehicle);
     Task<Vehicle> GetById(Guid id);
 
-    Task<bool> UpdateAsync(Vehicle vehicleS);
+    Task<bool> UpdateAsync();
 }

@@ -43,7 +43,7 @@ public class VehiclesController : ControllerBase
         // Mapper vehicleResource til Vehicle
         var vehicle = mapper.Map(vehicleResource, vehicleTemp);
 
-        var result = await repo.UpdateAsync(vehicle);
+        var result = await repo.UpdateAsync();
 
         return result == true ? Ok(mapper.Map<Vehicle, VehicleResource>(vehicle)) : BadRequest();
     }

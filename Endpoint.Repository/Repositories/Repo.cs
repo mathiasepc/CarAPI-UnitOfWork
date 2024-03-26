@@ -39,10 +39,8 @@ public class Repo : IRepo
             new Vehicle();
     }
 
-    public async Task<bool> UpdateAsync(Vehicle vehicle)
+    public async Task<bool> UpdateAsync()
     {
-        //_context?.Vehicles.Update(vehicle);
-
         await _context.SaveChangesAsync();
 
         return true;
