@@ -26,8 +26,35 @@ public class MappingProfile : Profile
 
         // API Resource to Domain
         CreateMap<VehicleResource, Vehicle>()
+            .ForMember(v => v.Id, opt => opt.Ignore())
             .ForMember(v => v.Contact, opt => opt.MapFrom(vr => vr.ContactResource))
             .ForMember(v => v.ModelId, opt => opt.MapFrom(vr => vr.ModelId))
-            .ForMember(v => v.Features, opt => opt.MapFrom(vr => vr.Features.Select(id => new VehicleFeature { FeatureId = id })));
+            .ForMember(v => v.Features, opt => opt.Ignore())
+            .AfterMap((vr, v) =>
+            {
+                // Da vi iterer over v.Features collection, i Foreach, vi kan ikke modify.
+                // Det vil give en throw en runtime exception.
+                // Derfor denne liste.
+                var removedFeatures = new List<VehicleFeature>();
+
+                // Gemmer unselected features i removedFeatures.
+                foreach (var feature in v.Features)
+                {
+                    if (!vr.Features.Contains(feature.FeatureId))
+                        // Tilføjer så vi kan fjerne senere.
+                        removedFeatures.Add(feature);
+                }
+
+                // Fjerner unselected features fra vehicle.
+                foreach (var feature in removedFeatures)
+                    v.Features.Remove(feature);
+
+                // Tilføjer new Features til vehicle
+                foreach (var id in vr.Features)
+                {
+                    if (!v.Features.Any(f => f.FeatureId == id))
+                        v.Features.Add(new VehicleFeature { FeatureId = id });
+                }
+            });
     }
 }

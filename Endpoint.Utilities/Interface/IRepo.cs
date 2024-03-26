@@ -13,4 +13,6 @@ public interface IRepo
     Task<IEnumerable<Feature>> GetFeatured();
     Task<bool> Insert(Vehicle vehicle);
     Task<Vehicle> GetById(Guid id);
+
+    Task<bool> UpdateAsync(Vehicle vehicleS);
 }

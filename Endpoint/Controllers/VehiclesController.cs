@@ -24,6 +24,7 @@ public class VehiclesController : ControllerBase
         // Dataannotations griber alt undtaget ModelId.
         if (vehicleResource.ModelId == Guid.Empty) return BadRequest("Der mangler ModelId");
 
+        // Mapper vehicleResource til Vehicle
         var vehicle = mapper.Map<VehicleResource, Vehicle>(vehicleResource);
 
         var result = await repo.Insert(vehicle);
@@ -37,10 +38,13 @@ public class VehiclesController : ControllerBase
         // Dataannotations griber alt undtaget ModelId. 
         if (vehicleResource.ModelId == Guid.Empty) return BadRequest("Der mangler ModelId"); 
 
-        var vehicle = await repo.GetById(id);
+        var vehicleTemp = await repo.GetById(id);
 
-        mapper.Map(vehicleResource, vehicle);
+        // Mapper vehicleResource til Vehicle
+        var vehicle = mapper.Map(vehicleResource, vehicleTemp);
 
-        return null;
+        var result = await repo.UpdateAsync(vehicle);
+
+        return result == true ? Ok(mapper.Map<Vehicle, VehicleResource>(vehicle)) : BadRequest();
     }
 }
