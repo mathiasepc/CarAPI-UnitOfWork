@@ -45,6 +45,6 @@ public class VehiclesController : ControllerBase
 
         var result = await repo.UpdateAsync();
 
-        return result == true ? Ok(mapper.Map<Vehicle, VehicleResource>(vehicle)) : BadRequest();
+        return result == true ? Ok(mapper.Map<Vehicle, VehicleResource>(vehicle)) : BadRequest("Noget gik galt da vi prøvede at gemme.");
     }
 }
