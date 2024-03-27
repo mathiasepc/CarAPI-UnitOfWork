@@ -10,11 +10,10 @@ public class Vehicle : BaseModel
 {
     public bool IsRegistered { get; set; }
     public DateTime LastUpdated { get; set; } = DateTime.Now;
-
-    // Complex type. Contact bliver ikke oprettet som egentabel. Men som en egenskab i vehicle
     public Contact Contact { get; set; }
 
     // Model reference 1 - M
+    [Required(ErrorMessage = "ModelId is required")]
     public Guid ModelId { get; set; }
     public Model Model { get; set; }
     // Features reference M - M

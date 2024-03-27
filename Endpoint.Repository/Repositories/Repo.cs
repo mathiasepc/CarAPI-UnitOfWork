@@ -34,7 +34,11 @@ public class Repo : IRepo
 
     public async Task<Vehicle> GetVehicleById(Guid id)
     {
-        return id != null ? await _context?.Vehicles.Include(v => v.Features).SingleOrDefaultAsync(v => v.Id == id) : new Vehicle();
+        return id != null ? await _context?.Vehicles
+            .Include(v => v.Features)
+            .ThenInclude(vf => vf.Feature)
+            .Include(v => v.Model)
+            .SingleOrDefaultAsync(v => v.Id == id) : new Vehicle();
     }
 
     public async Task<bool> SaveAsync()

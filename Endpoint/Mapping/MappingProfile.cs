@@ -16,18 +16,21 @@ public class MappingProfile : Profile
         CreateMap<Make, MakeResource>();
         CreateMap<Model, ModelResource>();
         CreateMap<Feature, FeaturedResource>();
-        CreateMap<Vehicle, VehicleResource>()
-            .ForMember(vr => vr.ContactResource, opt => opt.MapFrom(v => v.Contact))
+        CreateMap<Vehicle, SaveVehicleResource>()
+            .ForMember(vr => vr.Contact, opt => opt.MapFrom(v => v.Contact))
             .ForMember(vr => vr.Features, opt => opt.MapFrom(v => v.Features.Select(vf => vf.FeatureId)));
+        CreateMap<Vehicle, VehicleResource>()
+            .ForMember(vr => vr.Contact, opt => opt.MapFrom(v => v.Contact))
+            .ForMember(vr => vr.Features, opt => opt.MapFrom(v => v.Features.Select(vf => new FeaturedResource { Id = vf.FeatureId, Name = vf.Feature.Name })));
 
         // Complex type
         CreateMap<ContactResource, Contact>();
         CreateMap<Contact, ContactResource>();
 
         // API Resource to Domain
-        CreateMap<VehicleResource, Vehicle>()
+        CreateMap<SaveVehicleResource, Vehicle>()
             .ForMember(v => v.Id, opt => opt.Ignore())
-            .ForMember(v => v.Contact, opt => opt.MapFrom(vr => vr.ContactResource))
+            .ForMember(v => v.Contact, opt => opt.MapFrom(vr => vr.Contact))
             .ForMember(v => v.ModelId, opt => opt.MapFrom(vr => vr.ModelId))
             .ForMember(v => v.Features, opt => opt.Ignore())
             .AfterMap((vr, v) =>

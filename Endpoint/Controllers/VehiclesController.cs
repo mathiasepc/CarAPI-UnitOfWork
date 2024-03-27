@@ -20,21 +20,21 @@ public class VehiclesController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateVehicle([FromBody] VehicleResource vehicleResource)
+    public async Task<IActionResult> CreateVehicle([FromBody] SaveVehicleResource vehicleResource)
     {
         // Dataannotations griber alt undtaget ModelId.
         if (vehicleResource.ModelId == Guid.Empty) return BadRequest("Der mangler ModelId");
 
         // Mapper vehicleResource til Vehicle
-        var vehicle = mapper.Map<VehicleResource, Vehicle>(vehicleResource);
+        var vehicle = mapper.Map<SaveVehicleResource, Vehicle>(vehicleResource);
 
         var result = await repo.Insert(vehicle);
 
-        return result == true ? Ok(mapper.Map<Vehicle, VehicleResource>(vehicle)) : BadRequest("Noget gik galt da vi prøvede at gemme.");
+        return result == true ? Ok(mapper.Map<Vehicle, SaveVehicleResource>(vehicle)) : BadRequest("Noget gik galt da vi prøvede at gemme.");
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateVehicle(Guid id, [FromBody] VehicleResource vehicleResource)
+    public async Task<IActionResult> UpdateVehicle(Guid id, [FromBody] SaveVehicleResource vehicleResource)
     {
         // Dataannotations griber alt undtaget ModelId. 
         if (vehicleResource.ModelId == Guid.Empty) return BadRequest("Der mangler ModelId"); 
@@ -48,7 +48,7 @@ public class VehiclesController : ControllerBase
 
         var result = await repo.SaveAsync();
 
-        return result == true ? Ok(mapper.Map<Vehicle, VehicleResource>(vehicle)) : BadRequest("Noget gik galt da vi prøvede at gemme.");
+        return result == true ? Ok(mapper.Map<Vehicle, SaveVehicleResource>(vehicle)) : BadRequest("Noget gik galt da vi prøvede at gemme.");
     }
 
     [HttpDelete("{id}")]
@@ -60,7 +60,7 @@ public class VehiclesController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetVehicles(Guid id)
+    public async Task<IActionResult> GetVehicle(Guid id)
     {
         var vehicle = await repo.GetVehicleById(id);
 

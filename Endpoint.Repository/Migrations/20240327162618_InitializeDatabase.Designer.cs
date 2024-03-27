@@ -13,8 +13,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Endpoint.Repository.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240326095622_Database")]
-    partial class Database
+    [Migration("20240327162618_InitializeDatabase")]
+    partial class InitializeDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
