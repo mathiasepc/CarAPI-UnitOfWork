@@ -69,8 +69,7 @@ public class VehiclesController : ControllerBase
         // includeRelated: false = vi henter ikke relationer.
         var vehicle = await repo.GetVehicleById(id, includeRelated: false);
 
-        if (vehicle == null)
-            return NotFound($"Bilen findes ikke: {id}");
+        if (vehicle == null) return NotFound($"Bilen findes ikke: {id}");
         
         repo.RemoveVehicle(vehicle);
 
