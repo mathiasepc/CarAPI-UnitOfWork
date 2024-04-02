@@ -52,7 +52,7 @@ public class VehiclesController : ControllerBase
 
         var vehicle = await repo.GetVehicleById(id);
 
-        if (vehicle == null) return NotFound();
+        if (vehicle == null) return NotFound($"Bilen findes ikke: {id}");
 
         // Merger vehicleResource og vehicle værdierne sammen, i Vehicle
         mapper.Map(vehicleResource, vehicle);
