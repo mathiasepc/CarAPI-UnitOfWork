@@ -14,14 +14,16 @@ public class MappingProfile : Profile
     {
         // Domain to API Resources
         CreateMap<Make, MakeResource>();
-        CreateMap<Model, ModelResource>();
-        CreateMap<Feature, FeaturedResource>();
+        CreateMap<Make, KeyValuePairResource>();
+        CreateMap<Model, KeyValuePairResource>();
+        CreateMap<Feature, KeyValuePairResource>();
         CreateMap<Vehicle, SaveVehicleResource>()
             .ForMember(vr => vr.Contact, opt => opt.MapFrom(v => v.Contact))
             .ForMember(vr => vr.Features, opt => opt.MapFrom(v => v.Features.Select(vf => vf.FeatureId)));
         CreateMap<Vehicle, VehicleResource>()
+            .ForMember(vr => vr.Make, opt => opt.MapFrom(v => v.Model.Make))
             .ForMember(vr => vr.Contact, opt => opt.MapFrom(v => v.Contact))
-            .ForMember(vr => vr.Features, opt => opt.MapFrom(v => v.Features.Select(vf => new FeaturedResource { Id = vf.FeatureId, Name = vf.Feature.Name })));
+            .ForMember(vr => vr.Features, opt => opt.MapFrom(v => v.Features.Select(vf => new KeyValuePairResource { Id = vf.FeatureId, Name = vf.Feature.Name })));
 
         // Complex type
         CreateMap<ContactResource, Contact>();
@@ -35,7 +37,7 @@ public class MappingProfile : Profile
             .ForMember(v => v.Features, opt => opt.Ignore())
             .AfterMap((vr, v) =>
             {
-                // Da vi iterer over v.Features/vr.features collection, vi kan ikke modify.
+                // Da vi iterer over v.Features/vr.features collection, vi kan ikke modify i runtime.
                 // Det vil give en throw en runtime exception.
 
                 // Gemmer unselected features i removedFeatures. For så at slette.
@@ -46,10 +48,10 @@ public class MappingProfile : Profile
                     v.Features.Remove(feature);
 
                 // Tilføjer new Features til addFeatures
-                var addFeatures = vr.Features.Where(id => !v.Features.Any(f => f.FeatureId == id)).Select(id => new VehicleFeature { FeatureId = id}).ToList();
-                
+                var addFeatures = vr.Features.Where(id => !v.Features.Any(f => f.FeatureId == id)).Select(id => new VehicleFeature { FeatureId = id }).ToList();
+
                 // Tilføjer dem til vehicle.
-                foreach(var feature in addFeatures)
+                foreach (var feature in addFeatures)
                     v.Features.Add(feature);
             });
     }

@@ -12,10 +12,12 @@ public class VehiclesController : ControllerBase
 {
     private readonly IMapper mapper;
     private readonly IRepo repo;
-    public VehiclesController(IMapper mapper, IRepo repo)
+    private readonly IUnitOfWork unitOfWork;
+    public VehiclesController(IMapper mapper, IRepo repo, IUnitOfWork unitOfWork)
     {
         this.mapper = mapper;
         this.repo = repo;
+        this.unitOfWork = unitOfWork;
     }
 
     [HttpPost]
@@ -24,12 +26,15 @@ public class VehiclesController : ControllerBase
         // Dataannotations griber alt undtaget ModelId.
         if (vehicleResource.ModelId == Guid.Empty) return BadRequest("Der mangler ModelId");
 
-        // Mapper vehicleResource til Vehicle
+        // Mapper SaveVehicleResource til Vehicle
         var vehicle = mapper.Map<SaveVehicleResource, Vehicle>(vehicleResource);
 
-        var result = await repo.Insert(vehicle);
+        await repo.Insert(vehicle);
 
-        return result == true ? Ok(mapper.Map<Vehicle, SaveVehicleResource>(vehicle)) : BadRequest("Noget gik galt da vi prøvede at gemme.");
+        var result = await unitOfWork.CompleteAsync();
+
+        return result ? Ok(mapper.Map<Vehicle, VehicleResource>(await repo.GetVehicleById(vehicle.Id))) : 
+            BadRequest("Noget gik galt da vi prøvede at gemme.");
     }
 
     [HttpPut("{id}")]
@@ -38,31 +43,38 @@ public class VehiclesController : ControllerBase
         // Dataannotations griber alt undtaget ModelId. 
         if (vehicleResource.ModelId == Guid.Empty) return BadRequest("Der mangler ModelId"); 
 
-        var vehicleTemp = await repo.GetVehicleById(id);
+        var vehicle = await repo.GetVehicleById(id);
 
-        if (vehicleTemp == null) return NotFound();
+        if (vehicle == null) return NotFound();
 
-        // Mapper vehicleResource til Vehicle
-        var vehicle = mapper.Map(vehicleResource, vehicleTemp);
+        // Merger vehicleResource og vehicle værdierne sammen, i Vehicle
+        mapper.Map(vehicleResource, vehicle);
 
-        var result = await repo.SaveAsync();
+        var result = await unitOfWork.CompleteAsync();
 
-        return result == true ? Ok(mapper.Map<Vehicle, SaveVehicleResource>(vehicle)) : BadRequest("Noget gik galt da vi prøvede at gemme.");
+        return result ? Ok(mapper.Map<Vehicle, VehicleResource>(await repo.GetVehicleById(vehicle.Id))) : 
+            BadRequest("Noget gik galt da vi prøvede at gemme.");
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteVehicle(Guid id)
     {
-        var vehicle = await repo.GetVehicleById(id);        
+        // includeRelated: false = vi henter ikke relationer.
+        var vehicle = await repo.GetVehicleById(id, includeRelated: false);
 
-        return vehicle == null ? NotFound("Vehicle fandtes ikke.") : Ok(await repo.DeleteVehicle(vehicle));
+        if (vehicle == null)
+            return NotFound($"Bilen findes ikke: {id}");
+        
+        repo.RemoveVehicle(vehicle);
+
+        var result = await unitOfWork.CompleteAsync();
+
+        return result ? Ok(mapper.Map<Vehicle, VehicleResource>(vehicle)) : BadRequest("Noget gik galt da vi prøvede at gemme");
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetVehicle(Guid id)
     {
-        var vehicle = await repo.GetVehicleById(id);
-
-        return vehicle == null ? NotFound("Vehicle fandtes ikke.") : Ok(mapper.Map<Vehicle, VehicleResource>(vehicle));
+        return id != Guid.Empty ? Ok(mapper.Map<Vehicle, VehicleResource>(await repo.GetVehicleById(id))) : NotFound($"Bilen findes ikke: {id}");
     }
 }

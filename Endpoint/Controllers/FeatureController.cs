@@ -21,10 +21,10 @@ public class FeatureController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<FeaturedResource>>> GetFeatured()
+    public async Task<ActionResult<IEnumerable<KeyValuePairResource>>> GetFeatured()
     {
         var features = await _repository.GetFeatured();
 
-        return Ok(_mapper.Map<IEnumerable<Feature>,IEnumerable<FeaturedResource>>(features));
+        return Ok(_mapper.Map<IEnumerable<Feature>,IEnumerable<KeyValuePairResource>>(features));
     }
 }

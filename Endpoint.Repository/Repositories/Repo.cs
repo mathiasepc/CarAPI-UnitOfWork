@@ -7,53 +7,48 @@ namespace Endpoint.Repository.Repositories;
 
 public class Repo : IRepo
 {
-    private readonly DatabaseContext _context;
+    private readonly DatabaseContext context;
     public Repo(DatabaseContext context)
     {
-        _context = context;
+        this.context = context;
     }
 
     public async Task<IEnumerable<Make>> GetMake()
     {
-        return await _context.Makes.Include(m => m.Models).ToListAsync();
+        return await context.Makes.Include(m => m.Models).ToListAsync();
     }
 
     public async Task<IEnumerable<Feature>> GetFeatured()
     {
-        return await _context.Features.ToListAsync();
+        return await context.Features.ToListAsync();
     }
 
-    public async Task<bool> Insert(Vehicle vehicle)
+    public async Task Insert(Vehicle vehicle)
     {
-        _context.Vehicles.Add(vehicle);
-
-        await SaveAsync();
-
-        return true;
+        context.Vehicles.Add(vehicle);
     }
 
-    public async Task<Vehicle> GetVehicleById(Guid id)
+    /// <summary>
+    /// Da det kan være tungt at hente alle relationer hele tiden, har vi tilføjet includeRelated.
+    /// Det gør, at når vi ikke skal hente relationer, kan vi skrive false som parameter.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="includeRelated"></param>
+    /// <returns></returns>
+    public async Task<Vehicle> GetVehicleById(Guid id, bool includeRelated = true)
     {
-        return id != null ? await _context?.Vehicles
+        return !includeRelated ? 
+            await context.Vehicles.FindAsync(id) :
+            await context?.Vehicles
             .Include(v => v.Features)
-            .ThenInclude(vf => vf.Feature)
+                .ThenInclude(vf => vf.Feature)
             .Include(v => v.Model)
-            .SingleOrDefaultAsync(v => v.Id == id) : new Vehicle();
+                .ThenInclude(m => m.Make)
+            .SingleOrDefaultAsync(v => v.Id == id);
     }
 
-    public async Task<bool> SaveAsync()
+    public async Task RemoveVehicle(Vehicle vehicle)
     {
-        await _context.SaveChangesAsync();
-
-        return true; 
-    }
-
-    public async Task<Guid> DeleteVehicle(Vehicle vehicle)
-    {
-        _context.Remove(vehicle);
-
-        var saveResult = await SaveAsync();
-
-        return saveResult == true ? vehicle.Id : Guid.Empty;
+        context.Remove(vehicle);
     }
 }

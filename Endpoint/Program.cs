@@ -1,4 +1,5 @@
 using Endpoint.Mapping;
+using Endpoint.Repository;
 using Endpoint.Repository.Database;
 using Endpoint.Repository.Repositories;
 using Endpoint.Utilities.Interface;
@@ -9,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Tilføj Controller.
 builder.Services.AddControllers();
 builder.Services.AddScoped<IRepo, Repo>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 //Tilføjer AutoMapper.
 builder.Services.AddAutoMapper(cfg =>
