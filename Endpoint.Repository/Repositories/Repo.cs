@@ -30,15 +30,14 @@ public class Repo : IRepo
 
     /// <summary>
     /// Da det kan være tungt at hente alle relationer hele tiden, har vi tilføjet includeRelated.
-    /// Det gør, at når vi ikke skal hente relationer, kan vi skrive false som parameter.
+    /// Det gør, at når vi ikke skal hente relationer, kan vi skrive false som input parameter ved metode kald.
     /// </summary>
     /// <param name="id"></param>
     /// <param name="includeRelated"></param>
     /// <returns></returns>
     public async Task<Vehicle> GetVehicleById(Guid id, bool includeRelated = true)
     {
-        return !includeRelated ? 
-            await context.Vehicles.FindAsync(id) :
+        return !includeRelated ? await context.Vehicles.FindAsync(id) :
             await context?.Vehicles
             .Include(v => v.Features)
                 .ThenInclude(vf => vf.Feature)

@@ -20,6 +20,13 @@ public class VehiclesController : ControllerBase
         this.unitOfWork = unitOfWork;
     }
 
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetVehicle(Guid id)
+    {
+        return id != Guid.Empty ? Ok(mapper.Map<Vehicle, VehicleResource>(await repo.GetVehicleById(id))) :
+            NotFound($"Bilen findes ikke: {id}");
+    }
+
     [HttpPost]
     public async Task<IActionResult> CreateVehicle([FromBody] SaveVehicleResource vehicleResource)
     {
@@ -69,12 +76,7 @@ public class VehiclesController : ControllerBase
 
         var result = await unitOfWork.CompleteAsync();
 
-        return result ? Ok(mapper.Map<Vehicle, VehicleResource>(vehicle)) : BadRequest("Noget gik galt da vi prøvede at gemme");
-    }
-
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetVehicle(Guid id)
-    {
-        return id != Guid.Empty ? Ok(mapper.Map<Vehicle, VehicleResource>(await repo.GetVehicleById(id))) : NotFound($"Bilen findes ikke: {id}");
+        return result ? Ok(mapper.Map<Vehicle, VehicleResource>(vehicle)) : 
+            BadRequest("Noget gik galt da vi prøvede at gemme");
     }
 }
