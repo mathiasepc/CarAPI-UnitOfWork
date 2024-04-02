@@ -7,7 +7,7 @@ public interface IRepo
 {
     Task<IEnumerable<Make>> GetMake();
     Task<IEnumerable<Feature>> GetFeatured();
-    Task Insert(Vehicle vehicle);
+    void InsertVehicle(Vehicle vehicle);
     Task<Vehicle> GetVehicleById(Guid id, bool includeRelated = true);
-    Task RemoveVehicle(Vehicle vehicle);
+    void RemoveVehicle(Vehicle vehicle);
 }

@@ -23,7 +23,7 @@ public class Repo : IRepo
         return await context.Features.ToListAsync();
     }
 
-    public async Task Insert(Vehicle vehicle)
+    public void InsertVehicle(Vehicle vehicle)
     {
         context.Vehicles.Add(vehicle);
     }
@@ -47,7 +47,7 @@ public class Repo : IRepo
             .SingleOrDefaultAsync(v => v.Id == id);
     }
 
-    public async Task RemoveVehicle(Vehicle vehicle)
+    public void RemoveVehicle(Vehicle vehicle)
     {
         context.Remove(vehicle);
     }
