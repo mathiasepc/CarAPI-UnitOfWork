@@ -23,7 +23,7 @@ public class Repo : IRepo
         return await context.Features.ToListAsync();
     }
 
-    public void InsertVehicle(Vehicle vehicle)
+    public void AddVehicle(Vehicle vehicle)
     {
         context.Vehicles.Add(vehicle);
     }
@@ -37,7 +37,7 @@ public class Repo : IRepo
     /// <returns></returns>
     public async Task<Vehicle> GetVehicleById(Guid id, bool includeRelated = true)
     {
-        return !includeRelated ? await context.Vehicles.FindAsync(id) :
+        return !includeRelated ? await context.Vehicles.FindAsync(id) : 
             await context?.Vehicles
             .Include(v => v.Features)
                 .ThenInclude(vf => vf.Feature)

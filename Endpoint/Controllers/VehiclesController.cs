@@ -36,7 +36,7 @@ public class VehiclesController : ControllerBase
         // Mapper SaveVehicleResource til Vehicle
         var vehicle = mapper.Map<SaveVehicleResource, Vehicle>(vehicleResource);
 
-        repo.InsertVehicle(vehicle);
+        repo.AddVehicle(vehicle);
 
         var result = await unitOfWork.CompleteAsync();
 
