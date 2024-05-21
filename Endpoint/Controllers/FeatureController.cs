@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Endpoint.Controllers.Resources;
-using Endpoint.Utilities.Interface;
-using Endpoint.Utilities.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Queries.Core;
+using Queries.Core.Domain;
+using Queries.Core.IRepositories;
 
 namespace Endpoint.Controllers;
 
@@ -11,20 +11,20 @@ namespace Endpoint.Controllers;
 [ApiController]
 public class FeatureController : ControllerBase
 {
-    private IRepo _repository { get; set; }
-    private IMapper _mapper { get; set; }
+    private IUnitOfWork unitOfWork { get; set; }
+    private IMapper mapper { get; set; }
 
-    public FeatureController(IMapper mapper, IRepo repo)
+    public FeatureController(IMapper mapper, IUnitOfWork unitOfWork)
     {
-        _mapper = mapper;
-        _repository = repo;
+        this.mapper = mapper;
+        this.unitOfWork = unitOfWork;
     }
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<KeyValuePairResource>>> GetFeatured()
     {
-        var features = await _repository.GetFeatured();
+        var features = await unitOfWork.FeatureRepo.GetFeatured();
 
-        return Ok(_mapper.Map<IEnumerable<Feature>,IEnumerable<KeyValuePairResource>>(features));
+        return Ok(mapper.Map<IEnumerable<Feature>,IEnumerable<KeyValuePairResource>>(features));
     }
 }

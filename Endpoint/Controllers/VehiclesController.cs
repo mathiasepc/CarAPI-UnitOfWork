@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using Endpoint.Controllers.Resources;
-using Endpoint.Utilities.Interface;
-using Endpoint.Utilities.Models;
 using Microsoft.AspNetCore.Mvc;
+using Endpoint.Controllers.Resources;
+using Queries.Core;
+using Queries.Core.Domain;
 
 namespace Endpoint.Controllers;
 
@@ -11,20 +11,19 @@ namespace Endpoint.Controllers;
 public class VehiclesController : ControllerBase
 {
     private readonly IMapper mapper;
-    private readonly IRepo repo;
     private readonly IUnitOfWork unitOfWork;
-    public VehiclesController(IMapper mapper, IRepo repo, IUnitOfWork unitOfWork)
+    public VehiclesController(IMapper mapper, IUnitOfWork unitOfWork)
     {
         this.mapper = mapper;
-        this.repo = repo;
         this.unitOfWork = unitOfWork;
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetVehicle(Guid id)
     {
-        return id != Guid.Empty ? Ok(mapper.Map<Vehicle, VehicleResource>(await repo.GetVehicleById(id))) :
-            NotFound($"Id kan ikke være tomt: {id}");
+        return id != Guid.Empty 
+            ? Ok(mapper.Map<Vehicle, VehicleResource>(await unitOfWork.VehicleRepo.GetVehicleById(id))) 
+            : NotFound($"Id kan ikke være tomt: {id}");
     }
 
     [HttpPost]
@@ -36,46 +35,49 @@ public class VehiclesController : ControllerBase
         // Mapper SaveVehicleResource til Vehicle
         var vehicle = mapper.Map<SaveVehicleResource, Vehicle>(vehicleResource);
 
-        repo.AddVehicle(vehicle);
+        unitOfWork.VehicleRepo.AddVehicle(vehicle);
 
-        var result = await unitOfWork.CompleteAsync();
+        var result = unitOfWork.Complete();
 
-        return result ? Ok(mapper.Map<Vehicle, VehicleResource>(await repo.GetVehicleById(vehicle.Id))) : 
-            BadRequest("Noget gik galt da den prøvede at gemme.");
+        return result == 1 
+            ? Ok(mapper.Map<Vehicle, VehicleResource>(await unitOfWork.VehicleRepo.GetVehicleById(vehicle.Id))) 
+            : BadRequest("Noget gik galt da den prøvede at gemme.");
     }
 
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateVehicle(Guid id, [FromBody] SaveVehicleResource vehicleResource)
     {
         // Dataannotations griber alt undtaget ModelId. 
-        if (vehicleResource.ModelId == Guid.Empty) return BadRequest("Der mangler ModelId"); 
+        if (vehicleResource.ModelId == Guid.Empty) return BadRequest("Der mangler ModelId");
 
-        var vehicle = await repo.GetVehicleById(id);
+        var vehicle = await unitOfWork.VehicleRepo.GetVehicleById(id);
 
         if (vehicle == null) return NotFound($"Bilen findes ikke: {id}");
 
         // Merger vehicleResource og vehicle værdierne sammen, i Vehicle
         mapper.Map(vehicleResource, vehicle);
 
-        var result = await unitOfWork.CompleteAsync();
+        var result = unitOfWork.Complete();
 
-        return result ? Ok(mapper.Map<Vehicle, VehicleResource>(await repo.GetVehicleById(vehicle.Id))) : 
-            BadRequest("Noget gik galt da den prøvede at gemme.");
+        return result == 1 
+            ? Ok(mapper.Map<Vehicle, VehicleResource>(await unitOfWork.VehicleRepo.GetVehicleById(vehicle.Id))) 
+            : BadRequest("Noget gik galt da den prøvede at gemme.");
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteVehicle(Guid id)
     {
         // includeRelated: false = vi henter ikke relationer.
-        var vehicle = await repo.GetVehicleById(id, includeRelated: false);
+        var vehicle = await unitOfWork.VehicleRepo.GetVehicleById(id, includeRelated: false);
 
         if (vehicle == null) return NotFound($"Bilen findes ikke: {id}");
         
-        repo.RemoveVehicle(vehicle);
+        //repo.RemoveVehicle(vehicle);
 
-        var result = await unitOfWork.CompleteAsync();
+        var result = unitOfWork.Complete();
 
-        return result ? Ok(mapper.Map<Vehicle, VehicleResource>(vehicle)) : 
-            BadRequest("Noget gik galt da den prøvede at gemme");
+        return result == 1 
+            ? Ok(mapper.Map<Vehicle, VehicleResource>(vehicle)) 
+            : BadRequest("Noget gik galt da den prøvede at gemme");
     }
 }

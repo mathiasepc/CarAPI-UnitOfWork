@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using Endpoint.Controllers.Resources;
-using Endpoint.Utilities.Interface;
-using Endpoint.Utilities.Models;
 using Microsoft.AspNetCore.Mvc;
+using Queries.Core;
+using Queries.Core.Domain;
+using Queries.Core.IRepositories;
 
 namespace Endpoint.Controllers;
 
@@ -10,18 +11,18 @@ namespace Endpoint.Controllers;
 [ApiController]
 public class MakeController : ControllerBase
 {
-    private readonly IRepo _repository;
-    private readonly IMapper _mapper;
-    public MakeController(IRepo repo, IMapper mapper) 
+    private readonly IUnitOfWork unitOfWork;
+    private readonly IMapper mapper;
+    public MakeController(IUnitOfWork unitOfWork, IMapper mapper) 
     {
-        _mapper = mapper;
-        _repository = repo;
+        this.mapper = mapper;
+        this.unitOfWork = unitOfWork;
     }
     [HttpGet]
     public async Task<ActionResult<IEnumerable<MakeResource>>> GetMakes()
     {
-        var makes = await _repository.GetMake();
+        var makes = await unitOfWork.MakeRepo.GetMake();
 
-        return Ok(_mapper.Map<IEnumerable<Make>, IEnumerable<MakeResource>>(makes));
+        return Ok(mapper.Map<IEnumerable<Make>, IEnumerable<MakeResource>>(makes));
     }
 }

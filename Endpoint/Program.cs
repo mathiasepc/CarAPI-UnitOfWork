@@ -1,15 +1,15 @@
 using Endpoint.Mapping;
-using Endpoint.Repository;
-using Endpoint.Repository.Database;
-using Endpoint.Repository.Repositories;
-using Endpoint.Utilities.Interface;
 using Microsoft.EntityFrameworkCore;
+using Queries.Core;
+using Queries.Core.IRepositories;
+using Queries.Persistence;
+using Queries.Persistence.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Tilføj Controller.
 builder.Services.AddControllers();
-builder.Services.AddScoped<IRepo, Repo>();
+builder.Services.AddScoped<IVehicleRepo, VehicleRepo>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 //Tilføjer AutoMapper.
@@ -19,7 +19,7 @@ builder.Services.AddAutoMapper(cfg =>
 }, typeof(StartupBase));
 
 // Tilføjer databasen.
-builder.Services.AddDbContext<DatabaseContext>(options =>
+builder.Services.AddDbContext<PlutoContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("MathiasConnection")); // Tilføj ConnectionString
 });
