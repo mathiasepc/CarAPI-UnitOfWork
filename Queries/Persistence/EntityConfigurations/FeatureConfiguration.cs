@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Queries.Core.Domain;
 using Queries.Core.Domain.LinkTables;
+using System.Reflection.Emit;
 
 namespace Queries.Persistence.EntityConfigurations;
 
@@ -14,5 +15,6 @@ public class FeatureConfiguration : IEntityTypeConfiguration<Feature>
         builder.HasMany(f => f.VehicleFeatures)
             .WithOne(vf => vf.Feature)
             .HasForeignKey(vf => vf.FeatureId);
+
     }
 }

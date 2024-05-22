@@ -19,5 +19,6 @@ public class VehicleConfiguration : IEntityTypeConfiguration<Vehicle>
         builder.HasMany(v => v.VehicleFeatures)
             .WithOne(vf => vf.Vehicle)
             .HasForeignKey(vf => vf.VehicleId);
+
     }
 }

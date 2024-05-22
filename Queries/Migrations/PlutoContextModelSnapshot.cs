@@ -35,6 +35,23 @@ namespace Queries.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Features");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("05968ad9-bcf4-46b9-a309-f6efe17a9e18"),
+                            Name = "Feature 1"
+                        },
+                        new
+                        {
+                            Id = new Guid("c5444152-d541-4989-99b2-19ac6ed9125f"),
+                            Name = "Feature 2"
+                        },
+                        new
+                        {
+                            Id = new Guid("a62f2406-ef12-48ff-ba14-c2ddb04754d8"),
+                            Name = "Feature 3"
+                        });
                 });
 
             modelBuilder.Entity("Queries.Core.Domain.LinkTables.VehicleFeature", b =>
@@ -66,6 +83,23 @@ namespace Queries.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Makes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("b7f26ac9-5b71-497f-b0a5-5c683e267181"),
+                            Name = "Make 1"
+                        },
+                        new
+                        {
+                            Id = new Guid("b9c77744-3064-4d72-b349-ba12a23fecf7"),
+                            Name = "Make 2"
+                        },
+                        new
+                        {
+                            Id = new Guid("b4b83d92-d0ac-4bf9-8fae-8fe52284dd9a"),
+                            Name = "Make 3"
+                        });
                 });
 
             modelBuilder.Entity("Queries.Core.Domain.Model", b =>
@@ -86,6 +120,62 @@ namespace Queries.Migrations
                     b.HasIndex("MakeId");
 
                     b.ToTable("Models");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("42532caa-0a7f-4556-bcb2-43113ddb7386"),
+                            MakeId = new Guid("b7f26ac9-5b71-497f-b0a5-5c683e267181"),
+                            Name = "ModelA-Make1"
+                        },
+                        new
+                        {
+                            Id = new Guid("acb956e0-7a1f-48c1-b100-7e9f35d9411b"),
+                            MakeId = new Guid("b7f26ac9-5b71-497f-b0a5-5c683e267181"),
+                            Name = "ModelB-Make1"
+                        },
+                        new
+                        {
+                            Id = new Guid("e0799875-c7cd-4c34-b119-9ce3d9f5f742"),
+                            MakeId = new Guid("b7f26ac9-5b71-497f-b0a5-5c683e267181"),
+                            Name = "ModelC-Make1"
+                        },
+                        new
+                        {
+                            Id = new Guid("5f708c2e-5497-4b8f-a8e2-d393d7ef1540"),
+                            MakeId = new Guid("b9c77744-3064-4d72-b349-ba12a23fecf7"),
+                            Name = "ModelA-Make2"
+                        },
+                        new
+                        {
+                            Id = new Guid("c956850a-e488-420f-8611-dd30849aaa8e"),
+                            MakeId = new Guid("b9c77744-3064-4d72-b349-ba12a23fecf7"),
+                            Name = "ModelB-Make2"
+                        },
+                        new
+                        {
+                            Id = new Guid("91414760-4cef-4da4-8c91-00e2b18078b2"),
+                            MakeId = new Guid("b9c77744-3064-4d72-b349-ba12a23fecf7"),
+                            Name = "ModelC-Make2"
+                        },
+                        new
+                        {
+                            Id = new Guid("e5c7929a-956d-4e29-9b86-22f472430933"),
+                            MakeId = new Guid("b4b83d92-d0ac-4bf9-8fae-8fe52284dd9a"),
+                            Name = "ModelA-Make3"
+                        },
+                        new
+                        {
+                            Id = new Guid("c06435a9-1913-4a52-a415-01c93753c388"),
+                            MakeId = new Guid("b4b83d92-d0ac-4bf9-8fae-8fe52284dd9a"),
+                            Name = "ModelB-Make3"
+                        },
+                        new
+                        {
+                            Id = new Guid("c2dc45ee-9bb0-42e9-b625-aeddc53da952"),
+                            MakeId = new Guid("b4b83d92-d0ac-4bf9-8fae-8fe52284dd9a"),
+                            Name = "ModelC-Make3"
+                        });
                 });
 
             modelBuilder.Entity("Queries.Core.Domain.Vehicle", b =>

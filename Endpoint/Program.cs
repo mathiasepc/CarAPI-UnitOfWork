@@ -22,6 +22,7 @@ builder.Services.AddAutoMapper(cfg =>
 builder.Services.AddDbContext<PlutoContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("MathiasConnection")); // Tilføj ConnectionString
+    options.EnableSensitiveDataLogging();
 });
 
 // Tillader alle kald.
