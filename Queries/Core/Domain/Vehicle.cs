@@ -1,11 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Queries.Core.Domain.LinkTables;
-using Queries.Persistence.EntityConfigurations;
+﻿using Queries.Core.Domain.LinkTables;
 using System.Collections.ObjectModel;
 
 namespace Queries.Core.Domain;
 
-[EntityTypeConfiguration(typeof(VehicleConfiguration))]
 public class Vehicle : BaseModel
 {
     public bool IsRegistered { get; set; }

@@ -39,7 +39,7 @@ public class VehiclesController : ControllerBase
 
         var result = unitOfWork.Complete();
 
-        return result == 1 
+        return result == 3 
             ? Ok(mapper.Map<Vehicle, VehicleResource>(await unitOfWork.VehicleRepo.GetVehicleById(vehicle.Id))) 
             : BadRequest("Noget gik galt da den prøvede at gemme.");
     }
@@ -59,7 +59,7 @@ public class VehiclesController : ControllerBase
 
         var result = unitOfWork.Complete();
 
-        return result == 1 
+        return result == 3 
             ? Ok(mapper.Map<Vehicle, VehicleResource>(await unitOfWork.VehicleRepo.GetVehicleById(vehicle.Id))) 
             : BadRequest("Noget gik galt da den prøvede at gemme.");
     }
@@ -76,7 +76,7 @@ public class VehiclesController : ControllerBase
 
         var result = unitOfWork.Complete();
 
-        return result == 1 
+        return result == 3 
             ? Ok(mapper.Map<Vehicle, VehicleResource>(vehicle)) 
             : BadRequest("Noget gik galt da den prøvede at gemme");
     }
