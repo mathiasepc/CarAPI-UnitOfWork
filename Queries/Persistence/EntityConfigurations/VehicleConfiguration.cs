@@ -9,6 +9,7 @@ public class VehicleConfiguration : IEntityTypeConfiguration<Vehicle>
     public void Configure(EntityTypeBuilder<Vehicle> builder)
     {
         builder.Property(v => v.Id).IsRequired();
+        builder.Property(v => v.ModelId).IsRequired();
 
         builder.OwnsOne(v => v.Contact, contact =>
         {

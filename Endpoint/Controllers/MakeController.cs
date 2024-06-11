@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Endpoint.Controllers.Resources;
+using Endpoint.Application.Resources;
 using Microsoft.AspNetCore.Mvc;
 using Queries.Core;
 using Queries.Core.Domain;

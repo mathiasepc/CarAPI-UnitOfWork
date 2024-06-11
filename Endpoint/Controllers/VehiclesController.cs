@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Endpoint.Controllers.Resources;
 using Queries.Core;
 using Queries.Core.Domain;
+using Endpoint.Application.Resources;
 
 namespace Endpoint.Controllers;
 
@@ -30,7 +30,8 @@ public class VehiclesController : ControllerBase
     public async Task<IActionResult> CreateVehicle([FromBody] SaveVehicleResource vehicleResource)
     {
         // Dataannotations griber alt undtaget ModelId.
-        if (vehicleResource.ModelId == Guid.Empty) return BadRequest("Der mangler ModelId");
+        //if (vehicleResource.ModelId == Guid.Empty) return BadRequest("Der mangler ModelId");
+        if (!ModelState.IsValid) return BadRequest($"{ModelState.ValidationState}");
 
         // Mapper SaveVehicleResource til Vehicle
         var vehicle = mapper.Map<SaveVehicleResource, Vehicle>(vehicleResource);

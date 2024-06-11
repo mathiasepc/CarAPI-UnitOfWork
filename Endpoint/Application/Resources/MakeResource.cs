@@ -1,9 +1,11 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 
-namespace Endpoint.Controllers.Resources;
+namespace Endpoint.Application.Resources;
 
 public class MakeResource : BaseModelResource
 {
+    [Required(ErrorMessage = "Mangler navn for make.")]
     public string Name { get; set; }
     public ICollection<KeyValuePairResource> Models { get; set; }
 

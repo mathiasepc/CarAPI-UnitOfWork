@@ -1,4 +1,6 @@
-﻿namespace Endpoint.Controllers.Resources;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Endpoint.Application.Resources;
 
 /// <summary>
 /// Vi har sammensat alle modeler, som kun har Id og name. Før kom den nemlig med alle relationer, gør den ikke mere.
@@ -6,5 +8,6 @@
 /// </summary>
 public class KeyValuePairResource : BaseModelResource
 {
+    [Required(ErrorMessage = "Mangler navn.")]
     public string Name { get; set; }
 }
