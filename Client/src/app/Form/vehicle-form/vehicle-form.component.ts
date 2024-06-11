@@ -20,6 +20,7 @@ export class VehicleFormComponent implements OnInit {
     //Henter make og relateret modeller. Relateret modeller kommer i models.
     this.vehicleS.getMakes().subscribe({
       next:(makes => {
+        console.log(makes)
         this.makes = makes;
       }),
       error:(error =>{
@@ -38,7 +39,7 @@ export class VehicleFormComponent implements OnInit {
 
   // change event metoden.
   onMakeChange(){
-    var selectedMake = this.makes.find(m => m.id == this.vehicle.make);
+    var selectedMake = this.makes.find(m => m.id == this.vehicle.makeId);
     this.models = selectedMake ? selectedMake.models : [];
   }
 }

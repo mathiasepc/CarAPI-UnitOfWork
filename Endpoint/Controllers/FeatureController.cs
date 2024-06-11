@@ -3,7 +3,6 @@ using Endpoint.Application.Resources;
 using Microsoft.AspNetCore.Mvc;
 using Queries.Core;
 using Queries.Core.Domain;
-using Queries.Core.IRepositories;
 
 namespace Endpoint.Controllers;
 

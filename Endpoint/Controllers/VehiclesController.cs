@@ -21,8 +21,8 @@ public class VehiclesController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetVehicle(Guid id)
     {
-        return id != Guid.Empty 
-            ? Ok(mapper.Map<Vehicle, VehicleResource>(await unitOfWork.VehicleRepo.GetVehicleById(id))) 
+        return id != Guid.Empty
+            ? Ok(mapper.Map<Vehicle, VehicleResource>(await unitOfWork.VehicleRepo.GetVehicleById(id)))
             : NotFound($"Id kan ikke være tomt: {id}");
     }
 
@@ -30,8 +30,8 @@ public class VehiclesController : ControllerBase
     public async Task<IActionResult> CreateVehicle([FromBody] SaveVehicleResource vehicleResource)
     {
         // Dataannotations griber alt undtaget ModelId.
-        //if (vehicleResource.ModelId == Guid.Empty) return BadRequest("Der mangler ModelId");
-        if (!ModelState.IsValid) return BadRequest($"{ModelState.ValidationState}");
+        if (vehicleResource.ModelId == Guid.Empty) return BadRequest("Der mangler ModelId");
+        //if (!ModelState.IsValid) return BadRequest($"{ModelState.ValidationState}");
 
         // Mapper SaveVehicleResource til Vehicle
         var vehicle = mapper.Map<SaveVehicleResource, Vehicle>(vehicleResource);
@@ -40,8 +40,8 @@ public class VehiclesController : ControllerBase
 
         var result = unitOfWork.Complete();
 
-        return result == 3 
-            ? Ok(mapper.Map<Vehicle, VehicleResource>(await unitOfWork.VehicleRepo.GetVehicleById(vehicle.Id))) 
+        return result == 3
+            ? Ok(mapper.Map<Vehicle, VehicleResource>(await unitOfWork.VehicleRepo.GetVehicleById(vehicle.Id)))
             : BadRequest("Noget gik galt da den prøvede at gemme.");
     }
 
@@ -60,8 +60,8 @@ public class VehiclesController : ControllerBase
 
         var result = unitOfWork.Complete();
 
-        return result == 3 
-            ? Ok(mapper.Map<Vehicle, VehicleResource>(await unitOfWork.VehicleRepo.GetVehicleById(vehicle.Id))) 
+        return result == 3
+            ? Ok(mapper.Map<Vehicle, VehicleResource>(await unitOfWork.VehicleRepo.GetVehicleById(vehicle.Id)))
             : BadRequest("Noget gik galt da den prøvede at gemme.");
     }
 
@@ -72,13 +72,13 @@ public class VehiclesController : ControllerBase
         var vehicle = await unitOfWork.VehicleRepo.GetVehicleById(id, includeRelated: false);
 
         if (vehicle == null) return NotFound($"Bilen findes ikke: {id}");
-        
+
         //repo.RemoveVehicle(vehicle);
 
         var result = unitOfWork.Complete();
 
-        return result == 3 
-            ? Ok(mapper.Map<Vehicle, VehicleResource>(vehicle)) 
+        return result == 3
+            ? Ok(mapper.Map<Vehicle, VehicleResource>(vehicle))
             : BadRequest("Noget gik galt da den prøvede at gemme");
     }
 }

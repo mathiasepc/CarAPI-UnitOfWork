@@ -3,12 +3,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Endpoint.Application.Resources;
 
-public class BaseModelResource : ValidationAttribute
+public class BaseModelResource
 {
-    private Guid? _id { get; set; }
+    [Required]
+    private Guid _id { get; set; }
 
     [Required]
-    [GuidValidation]
     public Guid Id
     {
         get { return (Guid)_id; }

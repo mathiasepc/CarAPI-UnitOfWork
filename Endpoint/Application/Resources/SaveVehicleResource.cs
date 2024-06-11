@@ -10,7 +10,6 @@ public class SaveVehicleResource : BaseModelResource
     public ContactResource Contact { get; set; }
 
     [Required]
-    [GuidValidation]
     public Guid ModelId { get; set; }
     // Features reference M - M
     public ICollection<Guid>? Features { get; set; }
