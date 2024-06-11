@@ -19,4 +19,8 @@ export class VehicleService {
   getFeatures(): Observable<any[]>{
     return this.http.get<any[]>(this.baseURL + 'Feature');
   }
+
+  create(vehicle: {}): Observable<any>{
+    return this.http.post(this.baseURL + 'Vehicles', vehicle)
+  }
 }
