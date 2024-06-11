@@ -19,6 +19,7 @@ public class MappingProfile : Profile
         CreateMap<Feature, KeyValuePairResource>();
         CreateMap<Vehicle, SaveVehicleResource>()
             .ForMember(vr => vr.Contact, opt => opt.MapFrom(v => v.Contact))
+        // mapper featureId fra Vehicle.
             .ForMember(vr => vr.Features, opt => opt.MapFrom(v => v.VehicleFeatures.Select(vf => vf.FeatureId)));
         CreateMap<Vehicle, VehicleResource>()
             .ForMember(vr => vr.Make, opt => opt.MapFrom(v => v.Model.Make))
