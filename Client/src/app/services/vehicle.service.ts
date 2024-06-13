@@ -10,7 +10,8 @@ import { Environment } from '../Environment/Environment';
 export class VehicleService {
   private baseURL = Environment.APIurl;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient) { }
 
   getMakes(): Observable<any[]>{
     return this.http.get<any[]>(this.baseURL + 'Make');
@@ -21,6 +22,10 @@ export class VehicleService {
   }
 
   create(vehicle: {}): Observable<any>{
-    return this.http.post(this.baseURL + 'Vehicles', vehicle)
+    return this.http.post(this.baseURL + 'Vehicles', vehicle);
+  }
+
+  getVehicle(id: any): Observable<any> {
+    return this.http.get(this.baseURL + 'Vehicles/' + id);
   }
 }

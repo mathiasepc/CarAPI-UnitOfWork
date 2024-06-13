@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { VehicleService } from 'src/app/services/vehicle.service';
-
+import { ActivatedRoute, Router } from '@angular/router';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-vehicle-form',
   templateUrl: './vehicle-form.component.html',
-  styleUrls: ['./vehicle-form.component.css']
+  styleUrls: ['./vehicle-form.component.css'],
 })
 export class VehicleFormComponent implements OnInit {
   makes: any[] = [];
@@ -14,55 +15,104 @@ export class VehicleFormComponent implements OnInit {
   // Indeholder valgte fra make select.
   vehicle: any = {
     features: [],
-    contact: {}
+    contact: {},
   };
 
-  constructor(private vehicleService: VehicleService){}
-
-  ngOnInit(): void {
-    //Henter make og relateret modeller. Relateret modeller kommer i models.
-    this.vehicleService.getMakes().subscribe({
-      next:(makes => {
-        console.log(makes)
-        this.makes = makes;
-      }),
-      error:(error =>{
-        console.log(error);
-      })
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private vehicleService: VehicleService
+  ) {
+    // Konfigurere at det er id, som skal igennem ruten
+    route.params.subscribe((p) => {
+      this.vehicle.id = p['id'];
     });
-
-    this.vehicleService.getFeatures().subscribe({
-      next:(features => {
-        this.features = features
-        this.features.forEach(feature => console.log(feature))
-      }),
-      error:(error => console.log(error))
-    })
   }
 
+  ngOnInit(): void {
+    var sources = [
+      this.vehicleService.getMakes(),
+      this.vehicleService.getFeatures()
+    ];
+
+    // Bruger forkJoin til at hente flere async metoder, som leverer data.
+    forkJoin(sources).subscribe({
+      next: (data) => {
+        this.makes = data[0];
+        this.features = data[1];
+        // this.vehicle = data[2];
+      }
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+    if(this.vehicle.id){
+      this.vehicleService.getVehicle(this.vehicle.id).subscribe({
+        next: (v) =>{
+          if(v.status == 400)
+            this.router.navigate(['/']);
+          else
+            this.vehicle = v;         
+        }
+      });
+
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
   // change event metoden.
-  onMakeChange(){
-    var selectedMake = this.makes.find(m => m.id == this.vehicle.makeId);
+  onMakeChange() {
+    var selectedMake = this.makes.find((m) => m.id == this.vehicle.makeId);
     this.models = selectedMake ? selectedMake.models : [];
-    
+
     // refresher modelId
     delete this.vehicle.modelId;
   }
 
   onFeatureToggle(featureId: any, $event: Event) {
     const inputElement = $event.target as HTMLInputElement;
-    if (inputElement?.checked)
-      this.vehicle.features.push(featureId);
-    else{
+    if (inputElement?.checked) this.vehicle.features.push(featureId);
+    else {
       var index = this.vehicle.features.indexOf(featureId);
       this.vehicle.features.splice(index, 1);
     }
   }
 
-  submit(){
+  submit() {
     this.vehicle.isRegistered = Boolean(this.vehicle.isRegistered);
-    this.vehicleService.create(this.vehicle).subscribe(x => {
-      console.log(x);
+    this.vehicleService.create(this.vehicle).subscribe({
+      next: (answer) => {
+        console.log(answer);
+      },
     });
   }
 }

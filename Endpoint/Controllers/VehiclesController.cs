@@ -21,9 +21,17 @@ public class VehiclesController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetVehicle(Guid id)
     {
-        return id != Guid.Empty
-            ? Ok(mapper.Map<Vehicle, VehicleResource>(await unitOfWork.VehicleRepo.GetVehicleById(id)))
-            : NotFound($"Id kan ikke være tomt: {id}");
+        if (id != Guid.Empty)
+        {
+            var result = Ok(mapper.Map<Vehicle, VehicleResource>(await unitOfWork.VehicleRepo.GetVehicleById(id)));
+
+            return result != null ? result : BadRequest();
+        }
+        else
+            return BadRequest();
+        //return id != Guid.Empty
+        //    ? Ok(mapper.Map<Vehicle, VehicleResource>(await unitOfWork.VehicleRepo.GetVehicleById(id)))
+        //    : NotFound();
     }
 
     [HttpPost]
