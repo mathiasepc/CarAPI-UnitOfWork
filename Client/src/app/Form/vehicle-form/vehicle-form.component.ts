@@ -40,23 +40,11 @@ export class VehicleFormComponent implements OnInit {
       next: (data) => {
         this.makes = data[0];
         this.features = data[1];
-        // this.vehicle = data[2];
       }
     });
 
-
-
-
-
-
-
-
-
-
-
-
-
     if(this.vehicle.id){
+      console.log("Vehicle id: " + this.vehicle.id);
       this.vehicleService.getVehicle(this.vehicle.id).subscribe({
         next: (v) =>{
           if(v.status == 400)
