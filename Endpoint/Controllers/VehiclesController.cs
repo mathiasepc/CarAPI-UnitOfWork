@@ -22,7 +22,7 @@ public class VehiclesController : ControllerBase
     public async Task<IActionResult> GetVehicle(Guid id)
     {
         return id != Guid.Empty 
-            ? Ok(mapper.Map<Vehicle, VehicleResource>(await unitOfWork.VehicleRepo.GetVehicleById(id, true)))
+            ? Ok(mapper.Map<Vehicle, VehicleResource>(await unitOfWork.VehicleRepo.GetVehicleById(id, includeRelated: true)))
             : BadRequest();
     }
 
