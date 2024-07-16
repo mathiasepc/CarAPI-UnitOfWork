@@ -73,7 +73,7 @@ public class VehiclesController : ControllerBase
 
         if (vehicle == null) return NotFound($"Bilen findes ikke: {id}");
 
-        //repo.RemoveVehicle(vehicle);
+        unitOfWork.VehicleRepo.RemoveVehicle(vehicle);
 
         var result = unitOfWork.Complete();
 

@@ -73,11 +73,12 @@ export class VehicleFormComponent implements OnInit {
           // sæt til data[2] hvis ikke det er et array.
           const vehicleData = Array.isArray(data[2]) ? null : data[2];
 
-          if(vehicleData !== null)
+          if(vehicleData !== null){
             this.setVehicle(vehicleData);
+            this.populateModels();
+          }
       }
 
-        this.populateModels();
       }
     }); 
   }
@@ -131,5 +132,15 @@ export class VehicleFormComponent implements OnInit {
         console.log(answer);
       },
     });
+  }
+
+  delete(){
+    if(confirm("Are you sure")){
+      this.vehicleService.delete(this.vehicle.id).subscribe({
+        next: (answer) => {
+          this.router.navigate(['/']);
+        }
+      });
+      }
   }
 }

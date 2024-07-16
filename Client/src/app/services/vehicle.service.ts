@@ -28,4 +28,8 @@ export class VehicleService {
   getVehicle(id: any): Observable<any> {
     return this.http.get(this.baseURL + 'Vehicles/' + id);
   }
+  
+  delete(id: string): Observable<any>{
+    return this.http.delete(this.baseURL + 'Vehicles/' + id);
+  }
 }
