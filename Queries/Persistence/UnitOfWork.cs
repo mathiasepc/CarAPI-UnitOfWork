@@ -6,7 +6,7 @@ namespace Queries.Persistence;
 
 /// <summary>
 /// Her laver vi en save repository for alle repository. 
-/// Grunden til dette er, at hvis den fejler på en save, men ikke en anden, kan vi få data som ikke skal gemmes.
+/// Grunden til dette er, at hvis den fejler på en save, men ikke en anden, Gemmer den ingen af data'en.
 /// </summary>
 public class UnitOfWork : IUnitOfWork
 {
