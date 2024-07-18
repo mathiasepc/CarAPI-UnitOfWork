@@ -25,6 +25,10 @@ export class VehicleService {
     return this.http.post(this.baseURL + 'Vehicles', vehicle);
   }
 
+  getVehicles(): Observable<any>{
+    return this.http.get(this.baseURL + 'Vehicles');
+  }
+
   getVehicle(id: any): Observable<any> {
     return this.http.get(this.baseURL + 'Vehicles/' + id);
   }

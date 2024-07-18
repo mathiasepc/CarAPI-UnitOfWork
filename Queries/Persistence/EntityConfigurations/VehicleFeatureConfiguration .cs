@@ -11,11 +11,11 @@ public class VehicleFeatureConfiguration : IEntityTypeConfiguration<VehicleFeatu
         builder.HasKey(vf => new { vf.VehicleId, vf.FeatureId });
 
         builder.HasOne(vf => vf.Vehicle)
-            .WithMany(v => v.VehicleFeatures)
+            .WithMany(v => v.Features)
             .HasForeignKey(vf => vf.VehicleId);
 
         builder.HasOne(vf => vf.Feature)
-            .WithMany(f => f.VehicleFeatures)
+            .WithMany(f => f.Vehicle)
             .HasForeignKey(vf => vf.FeatureId);
     }
 }

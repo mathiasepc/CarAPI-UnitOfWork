@@ -17,7 +17,7 @@ public class VehicleConfiguration : IEntityTypeConfiguration<Vehicle>
             contact.Property(c => c.Email).IsRequired();
         });
 
-        builder.HasMany(v => v.VehicleFeatures)
+        builder.HasMany(v => v.Features)
             .WithOne(vf => vf.Vehicle)
             .HasForeignKey(vf => vf.VehicleId);
 

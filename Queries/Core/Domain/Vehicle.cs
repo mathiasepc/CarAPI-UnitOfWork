@@ -13,7 +13,7 @@ public class Vehicle : BaseModel
     public Guid ModelId { get; set; }
     public Model Model { get; set; }
     // Features reference M - M
-    public ICollection<VehicleFeature> VehicleFeatures { get; set; }
+    public ICollection<VehicleFeature> Features { get; set; }
 
 
     /// <summary>
@@ -21,6 +21,6 @@ public class Vehicle : BaseModel
     /// </summary>
     public Vehicle()
     {
-        VehicleFeatures = new Collection<VehicleFeature>();
+        Features = new Collection<VehicleFeature>();
     }
 }

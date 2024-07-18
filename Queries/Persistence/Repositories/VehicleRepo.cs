@@ -12,9 +12,13 @@ public class VehicleRepo : IVehicleRepo
         this.context = context;
     }
 
-    public void AddVehicle(Vehicle vehicle)
+    public async Task<IEnumerable<Vehicle>> GetVehicles()
     {
-        context.Vehicles.Add(vehicle);
+        return context.Vehicles
+            .Include(v => v.Model)
+            .ThenInclude(v => v.Make)
+            .Include(v => v.Features)
+            .ThenInclude(vf => vf.Feature);
     }
 
     /// <summary>
@@ -28,11 +32,16 @@ public class VehicleRepo : IVehicleRepo
     {
         return !includeRelated ? await context.Vehicles.FindAsync(id) :
             await context?.Vehicles
-            .Include(v => v.VehicleFeatures)
+            .Include(v => v.Features)
                 .ThenInclude(vf => vf.Feature)
             .Include(v => v.Model)
                 .ThenInclude(m => m.Make)
             .SingleOrDefaultAsync(v => v.Id == id);
+    }
+
+    public void AddVehicle(Vehicle vehicle)
+    {
+        context.Vehicles.Add(vehicle);
     }
 
     public void RemoveVehicle(Vehicle vehicle)

@@ -16,12 +16,14 @@ import { HttpClientModule } from '@angular/common/http';
 // Providers
 import { VehicleService } from './services/vehicle.service';
 import { appErrorHandler } from './app.error-handler';
+import { VehicleListComponent } from './Form/vehicle-list/vehicle-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     VehicleFormComponent,
-    NavbarComponent
+    NavbarComponent,
+    VehicleListComponent
   ],
   imports: [
     BrowserModule,
@@ -32,6 +34,7 @@ import { appErrorHandler } from './app.error-handler';
   providers: [
     // Tilhører app.error-handler. ErrorHandler nedarver fra appErrorHandler.
     { provide: ErrorHandler, useClass: appErrorHandler },
+    // TIlføjer mine servies
     VehicleService,
     // Dette tilhører en flot toasty notifikation.
     { provide: NOTYF, useFactory: notyfFactory }

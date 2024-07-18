@@ -12,7 +12,7 @@ public class FeatureConfiguration : IEntityTypeConfiguration<Feature>
     {
         builder.Property(f => f.Id).IsRequired();
 
-        builder.HasMany(f => f.VehicleFeatures)
+        builder.HasMany(f => f.Vehicle)
             .WithOne(vf => vf.Feature)
             .HasForeignKey(vf => vf.FeatureId);
 

@@ -11,7 +11,7 @@ public class Feature : BaseModel
     public string Name { get; set; }
 
     // Vehicle reference M - M
-    public ICollection<VehicleFeature> VehicleFeatures { get; set; }
+    public ICollection<VehicleFeature> Vehicle{ get; set; }
 
 
     /// <summary>
@@ -19,6 +19,6 @@ public class Feature : BaseModel
     /// </summary>
     public Feature()
     {
-        VehicleFeatures = new Collection<VehicleFeature>();
+        Vehicle = new Collection<VehicleFeature>();
     }
 }

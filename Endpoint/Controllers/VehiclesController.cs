@@ -18,6 +18,12 @@ public class VehiclesController : ControllerBase
         this.unitOfWork = unitOfWork;
     }
 
+    [HttpGet]
+    public async Task<IEnumerable<VehicleResource>> GetVehicles()
+    {
+        return mapper.Map<IEnumerable<Vehicle>, IEnumerable<VehicleResource>>(await unitOfWork.VehicleRepo.GetVehicles());
+    }
+
     [HttpGet("{id}")]
     public async Task<IActionResult> GetVehicle(Guid id)
     {
