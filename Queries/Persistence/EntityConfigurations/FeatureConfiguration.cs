@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Queries.Core.Domain;
-using Queries.Core.Domain.LinkTables;
-using System.Reflection.Emit;
 
 namespace Queries.Persistence.EntityConfigurations;
 
