@@ -19,9 +19,11 @@ public class VehiclesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IEnumerable<VehicleResource>> GetVehicles()
+    public async Task<IEnumerable<VehicleResource>> GetVehicles([FromQuery] FilterResource filterResource)
     {
-        return mapper.Map<IEnumerable<Vehicle>, IEnumerable<VehicleResource>>(await unitOfWork.VehicleRepo.GetVehicles());
+        var filter = mapper.Map<FilterResource, Filter>(filterResource);
+
+        return mapper.Map<IEnumerable<Vehicle>, IEnumerable<VehicleResource>>(await unitOfWork.VehicleRepo.GetVehicles(filter));
     }
 
     [HttpGet("{id}")]

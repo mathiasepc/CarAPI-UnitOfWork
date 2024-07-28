@@ -1,0 +1,13 @@
+.custom-well {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 15px;
+    background-color: #f7f7f7;
+    margin-bottom: 20px;
+}
+
+.btn-secondary:hover {
+    background-color: #007bff; /* Ændre til den farve du ønsker */
+    border-color: #007bff; /* Matcher border color med background color */
+    color: white; /* Ændre tekstfarven hvis nødvendigt */
+}

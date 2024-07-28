@@ -64,10 +64,11 @@ export class VehicleFormComponent implements OnInit {
         this.features = data[1];
 
         if (this.vehicle.id) {
-          // hvis der er tom data i data[2] skift til index.
-          if (data[2] === null || (Array.isArray(data[2]) && data[2].length === 0)) {
+          // hvis der er tom data i data[2](vehicle object) skift til index.
+          if (data[2] === null || (Array.isArray(data[2]) && data[2].length === 0)) 
               this.router.navigate(['/']);
-          }
+          
+        
 
           // Kontroller, om data[2] er en Vehicle-objekt eller en tom array. 
           // sæt til data[2] hvis ikke det er et array.

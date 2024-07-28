@@ -31,6 +31,7 @@ public class MappingProfile : Profile
         CreateMap<Contact, ContactResource>();
 
         // API Resource to Domain
+        CreateMap<FilterResource, Filter>();
         CreateMap<SaveVehicleResource, Vehicle>()
             .ForMember(v => v.Id, opt => opt.Ignore())
             .ForMember(v => v.Contact, opt => opt.MapFrom(vr => vr.Contact))

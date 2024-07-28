@@ -12,13 +12,22 @@ public class VehicleRepo : IVehicleRepo
         this.context = context;
     }
 
-    public async Task<IEnumerable<Vehicle>> GetVehicles()
+    public async Task<IEnumerable<Vehicle>> GetVehicles(Filter filter)
     {
-        return context.Vehicles
+        // Ved at tilføje AsQueryable gør det muligt at hente data på database niveau fra variablen, senere i koden.
+        var query = context.Vehicles
             .Include(v => v.Model)
             .ThenInclude(v => v.Make)
             .Include(v => v.Features)
-            .ThenInclude(vf => vf.Feature);
+            .ThenInclude(vf => vf.Feature)
+            .AsQueryable();
+
+        if (filter.MakeId.HasValue)
+            // Tilføjer .Where() til query.
+            query = query.Where(v => v.Model.MakeId == filter.MakeId);
+
+        // Her henter vi det data, som vi har brug for.
+        return await query.ToListAsync();
     }
 
     /// <summary>
