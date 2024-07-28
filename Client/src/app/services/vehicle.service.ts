@@ -37,7 +37,7 @@ toQueryString(obj: any): string {
     // Henter værdien af egenskaben
     var value = obj[property];
 
-    // Hvis værdien ikke er null eller undefined
+    // value må ikke er null eller undefined
     if (value != null || value != undefined) {
       // Tilføjer variablens navn og værdien på variablen til parts arrayet
       parts.push(encodeURIComponent(property) + '=' + encodeURIComponent(value));
