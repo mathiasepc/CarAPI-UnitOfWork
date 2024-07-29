@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Queries.Core.Domain;
 using Queries.Core.IRepositories;
+using Queries.Extensions;
+using System.Linq.Expressions;
 
 namespace Queries.Persistence.Repositories;
 
@@ -12,7 +14,7 @@ public class VehicleRepo : IVehicleRepo
         this.context = context;
     }
 
-    public async Task<IEnumerable<Vehicle>> GetVehicles(Filter filter)
+    public async Task<IEnumerable<Vehicle>> GetVehicles(VehicleQuery queryObj)
     {
         // Ved at tilføje AsQueryable gør det muligt at hente data på database niveau fra variablen, senere i koden.
         var query = context.Vehicles
@@ -22,9 +24,19 @@ public class VehicleRepo : IVehicleRepo
             .ThenInclude(vf => vf.Feature)
             .AsQueryable();
 
-        if (filter.MakeId.HasValue)
+        if (queryObj.MakeId.HasValue)
             // Tilføjer .Where() til query.
-            query = query.Where(v => v.Model.MakeId == filter.MakeId);
+            query = query.Where(v => v.Model.MakeId == queryObj.MakeId);
+
+        // Object initialization: laver en mapning af sortering på kolonner for vehicle
+        var columnsMap = new Dictionary<string, Expression<Func<Vehicle, object>>>()
+        {
+            ["make"] = v => v.Model.Make.Name, // Mapning for 'make'
+            ["model"] = v => v.Model.Name, // Mapning for 'model'
+            ["contactName"] = v => v.Contact.Name // Mapning for 'contactName'
+        };
+
+        query = query.ApplyOrdering(queryObj, columnsMap);
 
         // Her henter vi det data, som vi har brug for.
         return await query.ToListAsync();
@@ -39,8 +51,9 @@ public class VehicleRepo : IVehicleRepo
     /// <returns></returns>
     public async Task<Vehicle> GetVehicleById(Guid id, bool includeRelated = true)
     {
-        return !includeRelated ? await context.Vehicles.FindAsync(id) :
-            await context?.Vehicles
+        return !includeRelated 
+            ? await context.Vehicles.FindAsync(id) 
+            : await context?.Vehicles
             .Include(v => v.Features)
                 .ThenInclude(vf => vf.Feature)
             .Include(v => v.Model)

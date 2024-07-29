@@ -1,5 +1,4 @@
-﻿using Endpoint.Application.Validation;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Endpoint.Application.Resources;

@@ -28,7 +28,6 @@ public class UnitOfWork : IUnitOfWork
     {
         // Gem ændringer asynkront
         return _context.SaveChanges();
-
     }
 
     public void Dispose()

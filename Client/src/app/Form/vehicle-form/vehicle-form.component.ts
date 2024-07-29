@@ -5,6 +5,7 @@ import { forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { SaveVehicle } from 'src/app/Models/saveVehicle';
 import { Vehicle } from 'src/app/Models/vehicle';
+import { animate } from '@angular/animations';
 
 @Component({
   selector: 'app-vehicle-form',
@@ -110,8 +111,6 @@ export class VehicleFormComponent implements OnInit {
     // sætter models hvis vi fandt en make.
     this.models = selectedMake ? selectedMake.models : [];
   }
-
-
 
   // Laver en event for checkbokse.
   onFeatureToggle(featureId: any, $event: Event) {

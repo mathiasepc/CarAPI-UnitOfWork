@@ -27,11 +27,14 @@ public class MappingProfile : Profile
             .ForMember(vr => vr.Features, opt => opt.MapFrom(v => v.Features.Select(vf => new KeyValuePairResource { Id = vf.FeatureId, Name = vf.Feature.Name })));
 
         // Complex type
-        CreateMap<ContactResource, Contact>();
+        CreateMap<ContactResource, Contact>();  
         CreateMap<Contact, ContactResource>();
 
+        // Query
+        CreateMap<VehicleQueryResource, VehicleQuery>();
+
+
         // API Resource to Domain
-        CreateMap<FilterResource, Filter>();
         CreateMap<SaveVehicleResource, Vehicle>()
             .ForMember(v => v.Id, opt => opt.Ignore())
             .ForMember(v => v.Contact, opt => opt.MapFrom(vr => vr.Contact))

@@ -19,9 +19,9 @@ public class VehiclesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IEnumerable<VehicleResource>> GetVehicles([FromQuery] FilterResource filterResource)
+    public async Task<IEnumerable<VehicleResource>> GetVehicles([FromQuery] VehicleQueryResource filterResource)
     {
-        var filter = mapper.Map<FilterResource, Filter>(filterResource);
+        var filter = mapper.Map<VehicleQueryResource, VehicleQuery>(filterResource);
 
         return mapper.Map<IEnumerable<Vehicle>, IEnumerable<VehicleResource>>(await unitOfWork.VehicleRepo.GetVehicles(filter));
     }
@@ -48,7 +48,7 @@ public class VehiclesController : ControllerBase
 
         var result = unitOfWork.Complete();
 
-        return result == 3
+        return result > 0
             ? Ok(mapper.Map<Vehicle, VehicleResource>(await unitOfWork.VehicleRepo.GetVehicleById(vehicle.Id)))
             : BadRequest("Noget gik galt da den prøvede at gemme.");
     }
@@ -59,7 +59,7 @@ public class VehiclesController : ControllerBase
         // Dataannotations griber alt undtaget ModelId. 
         if (vehicleResource.ModelId == Guid.Empty) return BadRequest("Der mangler ModelId");
 
-        var vehicle = await unitOfWork.VehicleRepo.GetVehicleById(id);
+        var vehicle = await unitOfWork.VehicleRepo.GetVehicleById(id, true);
 
         if (vehicle == null) return NotFound($"Bilen findes ikke: {id}");
 
@@ -68,7 +68,7 @@ public class VehiclesController : ControllerBase
 
         var result = unitOfWork.Complete();
 
-        return result == 3
+        return result > 0
             ? Ok(mapper.Map<Vehicle, VehicleResource>(await unitOfWork.VehicleRepo.GetVehicleById(vehicle.Id)))
             : BadRequest("Noget gik galt da den prøvede at gemme.");
     }
@@ -85,7 +85,7 @@ public class VehiclesController : ControllerBase
 
         var result = unitOfWork.Complete();
 
-        return result == 3
+        return result > 0
             ? Ok(mapper.Map<Vehicle, VehicleResource>(vehicle))
             : BadRequest("Noget gik galt da den prøvede at gemme");
     }
