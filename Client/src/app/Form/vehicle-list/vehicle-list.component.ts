@@ -13,6 +13,14 @@ export class VehicleListComponent implements OnInit {
   makes: KeyValuePair[] | undefined;
   // den vi sender til server ift. sortBy og pageing.
   query: any = {};
+  // Når man laver denne form for mapping, skal man sætte dem i rækkefølgenden,
+  // Som man modtager dem fra serveren.
+  columns = [
+    { title: 'id' },
+    { title: 'Make', key: 'make', isSortable: true },
+    { title: 'Model', key: 'model', isSortable: true },
+    { title: 'Contact Name ', key: 'contactName', isSortable: true }
+  ]
 
   constructor(private VehicleService: VehicleService) {}
 
