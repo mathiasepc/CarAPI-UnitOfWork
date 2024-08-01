@@ -2,8 +2,6 @@
 
 namespace Endpoint.Validering;
 
-
-
 /// <summary>
 /// Den går ind og validere på Guid. Men man kan bare ikke lade den være tom. Den når aldrig valideringen hvis den er tom.
 /// F.eks. kan ModelId="" ikke ske.
