@@ -1,0 +1,32 @@
+ul.pagination li {
+    /* Margin imellem listeelementer */
+    margin: 0 2px; 
+}
+
+ul.pagination li a {
+    /* Gør linkene blok-elementer */
+    display: block; 
+    /* Indvendig margen */
+    padding: 8px 16px; 
+    /* Farve på link-tekst */ 
+    color: #007bff; 
+    /* Rundede hjørner */ 
+    border-radius: 4px; 
+}
+
+ul.pagination li a:hover {
+    /* Baggrundsfarve ved hover */
+    background-color: #e9ecef; 
+}
+
+ul.pagination li.disabled a {
+    /* Farve på deaktiverede links */
+    color: #6c757d; 
+}
+
+ul.pagination li.active a {
+    /* Baggrundsfarve på aktiv side */
+    background-color: #007bff;
+    /* Tekstfarve på aktiv side  */
+    color: white; 
+}

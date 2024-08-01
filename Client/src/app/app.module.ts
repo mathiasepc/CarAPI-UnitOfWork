@@ -7,8 +7,8 @@ import { NOTYF, notyfFactory } from './Shared/notyf.token';
 
 // Sider på hjemmesiden
 import { AppComponent } from './app.component';
-import { VehicleFormComponent } from './Form/vehicle-form/vehicle-form.component';
-import { NavbarComponent } from './SharePages/navbar/navbar.component';
+import { VehicleFormComponent } from './Component/vehicle-form/vehicle-form.component';
+import { NavbarComponent } from './Component/navbar/navbar.component';
 
 // Imports
 import { HttpClientModule } from '@angular/common/http';
@@ -16,14 +16,17 @@ import { HttpClientModule } from '@angular/common/http';
 // Providers
 import { VehicleService } from './services/vehicle.service';
 import { appErrorHandler } from './app.error-handler';
-import { VehicleListComponent } from './Form/vehicle-list/vehicle-list.component';
+import { VehicleListComponent } from './Component/vehicle-list/vehicle-list.component';
+import { PaginationComponent } from './Shared/pagination/pagination/pagination.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     VehicleFormComponent,
     NavbarComponent,
-    VehicleListComponent
+    VehicleListComponent,
+    PaginationComponent
   ],
   imports: [
     BrowserModule,

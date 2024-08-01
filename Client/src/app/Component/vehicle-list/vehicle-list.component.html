@@ -8,7 +8,7 @@
         <label for="make">Make</label>
         <select name="" id="make" class="form-control mb-3" [(ngModel)]="query.makeId" (change)="onFilterChange()">
             <option value=""></option>
-            <option *ngFor="let m of makes" [value]="m.id">{{ m.name }}</option>
+            <option *ngFor="let m of make" [value]="m.id">{{ m.name }}</option>
         </select>
     </div>
 
@@ -34,7 +34,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let vehicle of vehicles">
+        <tr *ngFor="let vehicle of queryResult">
             <td>{{ vehicle.id }}</td>
             <td>{{ vehicle.make.name }}</td>
             <td>{{ vehicle.model.name }}</td>
@@ -42,3 +42,4 @@
         </tr>
     </tbody>
 </table>
+<pagination [total-items]="10" [page-size]="query.pageSize" (page-changed)="onPageChange($event)"></pagination>

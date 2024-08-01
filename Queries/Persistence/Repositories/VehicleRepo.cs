@@ -38,6 +38,11 @@ public class VehicleRepo : IVehicleRepo
 
         query = query.ApplyOrdering(queryObj, columnsMap);
 
+        // Paging
+        query = query.ApplyPaing(queryObj);
+
+
+
         // Her henter vi det data, som vi har brug for.
         return await query.ToListAsync();
     }

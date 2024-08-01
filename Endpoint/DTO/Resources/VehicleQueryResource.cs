@@ -6,4 +6,6 @@ public class VehicleQueryResource
     public Guid? MakeId { get; set; }
     public string? SortBy { get; set; }
     public bool IsSortAscending { get; set; } = true;
+    public int? Page { get; set; }
+    public byte? PageSize { get; set; }
 }
