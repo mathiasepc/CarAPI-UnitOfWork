@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Endpoint.Extensions;
+namespace Endpoint.Validering;
 
 
 

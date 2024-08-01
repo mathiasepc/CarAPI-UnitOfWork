@@ -1,4 +1,4 @@
-﻿using Endpoint.Extensions;
+﻿using Endpoint.Validering;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
