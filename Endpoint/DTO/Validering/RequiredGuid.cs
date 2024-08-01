@@ -13,19 +13,8 @@ public class RequiredGuid : ValidationAttribute
 {
     protected override ValidationResult IsValid(object value, ValidationContext validationContext)
     {
-        if (value == null)
-            return new ValidationResult(ErrorMessage ?? "Guid is required");
-
-        if (value is Guid guidValue)
-        {
-            if (guidValue == Guid.Empty)
-            {
-                return new ValidationResult(ErrorMessage ?? "Guid cannot be empty.");
-            }
-
-            return ValidationResult.Success;
-        }
-
-        return new ValidationResult(ErrorMessage ?? "Invalid Guid format.");
+        return value == null || (Guid)value == Guid.Empty
+            ? new ValidationResult(ErrorMessage ?? "Guid is required")
+            : ValidationResult.Success;
     }
 }
