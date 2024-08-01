@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace Endpoint.Resources;
+namespace Endpoint.DTO.Resources;
 
 public class VehicleResource : BaseModelResource
 {

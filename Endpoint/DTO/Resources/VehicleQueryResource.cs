@@ -1,4 +1,4 @@
-﻿namespace Endpoint.Resources;
+﻿namespace Endpoint.DTO.Resources;
 
 // Den nedarver ikke fra base, da den må være optional.
 public class VehicleQueryResource

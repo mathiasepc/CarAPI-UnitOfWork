@@ -1,4 +1,4 @@
-﻿namespace Endpoint.Resources;
+﻿namespace Endpoint.DTO.Resources;
 
 public class BaseModelResource
 {

@@ -1,15 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Endpoint.Validering;
+namespace Endpoint.DTO.Validering;
 
 /// <summary>
-/// Den går ind og validere på Guid. Men man kan bare ikke lade den være tom. Den når aldrig valideringen hvis den er tom.
-/// F.eks. kan ModelId="" ikke ske.
+/// Den går ind og validere på Guid. Men man kan bare ikke lade den være tom. Den når aldrig valideringen hvis JSON-objektet er tomt.
+/// F.eks. kan ModelId="" ikke nå validering.
 /// </summary>
 [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
 public class RequiredGuid : ValidationAttribute
 {
-    protected override ValidationResult IsValid(Object value, ValidationContext validationContext)
+    protected override ValidationResult IsValid(object value, ValidationContext validationContext)
     {
         if (value == null)
             return new ValidationResult(ErrorMessage ?? "Guid is required");

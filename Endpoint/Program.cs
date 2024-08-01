@@ -1,4 +1,4 @@
-using Endpoint.Mapping;
+using Endpoint.Application.Mapping;
 using Microsoft.EntityFrameworkCore;
 using Queries.Core;
 using Queries.Core.IRepositories;

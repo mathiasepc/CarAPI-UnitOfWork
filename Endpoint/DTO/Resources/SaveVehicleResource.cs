@@ -1,8 +1,8 @@
-﻿using Endpoint.Validering;
+﻿using Endpoint.DTO.Validering;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace Endpoint.Resources;
+namespace Endpoint.DTO.Resources;
 
 public class SaveVehicleResource : BaseModelResource
 {

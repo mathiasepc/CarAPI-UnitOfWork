@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Queries.Core;
 using Queries.Core.Domain;
-using Endpoint.Resources;
+using Endpoint.DTO.Resources;
 
-namespace Endpoint.Controllers;
+namespace Endpoint.Application.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -29,14 +29,14 @@ public class VehiclesController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetVehicle(Guid id)
     {
-        return id != Guid.Empty 
+        return id != Guid.Empty
             ? Ok(mapper.Map<Vehicle, VehicleResource>(await unitOfWork.VehicleRepo.GetVehicleById(id, includeRelated: true)))
             : BadRequest();
     }
 
     [HttpPost]
     public async Task<IActionResult> CreateVehicle([FromBody] SaveVehicleResource vehicleResource)
-    { 
+    {
         // Mapper SaveVehicleResource til Vehicle
         var vehicle = mapper.Map<SaveVehicleResource, Vehicle>(vehicleResource);
 

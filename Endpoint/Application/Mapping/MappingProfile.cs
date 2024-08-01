@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using Endpoint.Resources;
+using Endpoint.DTO.Resources;
 using Queries.Core.Domain;
 using Queries.Core.Domain.LinkTables;
 
-namespace Endpoint.Mapping;
+namespace Endpoint.Application.Mapping;
 
 public class MappingProfile : Profile
 {
@@ -27,7 +27,7 @@ public class MappingProfile : Profile
             .ForMember(vr => vr.Features, opt => opt.MapFrom(v => v.Features.Select(vf => new KeyValuePairResource { Id = vf.FeatureId, Name = vf.Feature.Name })));
 
         // Complex type
-        CreateMap<ContactResource, Contact>();  
+        CreateMap<ContactResource, Contact>();
         CreateMap<Contact, ContactResource>();
 
         // Query

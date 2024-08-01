@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using Endpoint.Resources;
+using Endpoint.DTO.Resources;
 using Microsoft.AspNetCore.Mvc;
 using Queries.Core;
 using Queries.Core.Domain;
 
-namespace Endpoint.Controllers;
+namespace Endpoint.Application.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -24,6 +24,6 @@ public class FeatureController : ControllerBase
     {
         var features = await unitOfWork.FeatureRepo.GetFeatured();
 
-        return Ok(mapper.Map<IEnumerable<Feature>,IEnumerable<KeyValuePairResource>>(features));
+        return Ok(mapper.Map<IEnumerable<Feature>, IEnumerable<KeyValuePairResource>>(features));
     }
 }
