@@ -6,7 +6,6 @@ namespace Endpoint.DTO.Resources;
 
 public class SaveVehicleResource : BaseModelResource
 {
-    [Required]
     public bool IsRegistered { get; set; }
     public ContactResource Contact { get; set; }
 
