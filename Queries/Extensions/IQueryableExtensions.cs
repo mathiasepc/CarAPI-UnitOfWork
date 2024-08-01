@@ -11,7 +11,7 @@ public static class IQueryableExtensions
 {
 
     /// <typeparam name="T"></typeparam>
-    /// <param name="query">query: variablen sorteringen vil blive anvendt på</param>
+    /// <param name="query">query: variablen sorteringen vil blive anvendt på. Query kommer fra kaldet.</param>
     /// <param name="queryObj">queryObj: er den variable som indeholder kriterierne for sorteringen.</param>
     /// <param name="columnsMap">columnsMap: Mappingen som er blevet lavet. på et objekt</param>
     /// <returns></returns>

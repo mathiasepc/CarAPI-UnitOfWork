@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace Endpoint.Application.Resources;
+namespace Endpoint.Resources;
 
 public class VehicleResource : BaseModelResource
 {
@@ -11,7 +11,7 @@ public class VehicleResource : BaseModelResource
     public KeyValuePairResource Make { get; set; }
 
     // Features reference M - M
-    public ICollection<KeyValuePairResource>? Features { get; set; }
+    public ICollection<KeyValuePairResource> Features { get; set; }
 
     /// <summary>
     /// Undgår nullreference

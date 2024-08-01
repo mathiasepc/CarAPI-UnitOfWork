@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Queries.Core;
 using Queries.Core.Domain;
-using Endpoint.Application.Resources;
+using Endpoint.Resources;
 
 namespace Endpoint.Controllers;
 
@@ -36,11 +36,7 @@ public class VehiclesController : ControllerBase
 
     [HttpPost]
     public async Task<IActionResult> CreateVehicle([FromBody] SaveVehicleResource vehicleResource)
-    {
-        // Dataannotations griber alt undtaget ModelId.
-        if (vehicleResource.ModelId == Guid.Empty) return BadRequest("Der mangler ModelId");
-        //if (!ModelState.IsValid) return BadRequest($"{ModelState.ValidationState}");
-
+    { 
         // Mapper SaveVehicleResource til Vehicle
         var vehicle = mapper.Map<SaveVehicleResource, Vehicle>(vehicleResource);
 
@@ -56,9 +52,6 @@ public class VehiclesController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateVehicle(Guid id, [FromBody] SaveVehicleResource vehicleResource)
     {
-        // Dataannotations griber alt undtaget ModelId. 
-        if (vehicleResource.ModelId == Guid.Empty) return BadRequest("Der mangler ModelId");
-
         var vehicle = await unitOfWork.VehicleRepo.GetVehicleById(id, true);
 
         if (vehicle == null) return NotFound($"Bilen findes ikke: {id}");

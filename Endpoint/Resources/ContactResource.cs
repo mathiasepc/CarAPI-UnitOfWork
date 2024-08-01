@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Endpoint.Application.Resources;
+namespace Endpoint.Resources;
 
 public class ContactResource
 {

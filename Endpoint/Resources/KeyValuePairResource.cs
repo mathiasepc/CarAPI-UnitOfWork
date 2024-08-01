@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Endpoint.Application.Resources;
+namespace Endpoint.Resources;
 
 /// <summary>
 /// Vi har sammensat alle modeler, som kun har Id og name. Før kom den nemlig med alle relationer, gør den ikke mere.

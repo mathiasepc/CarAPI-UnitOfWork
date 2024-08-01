@@ -1,15 +1,17 @@
-﻿using System.Collections.ObjectModel;
+﻿using Endpoint.Extensions;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace Endpoint.Application.Resources;
+namespace Endpoint.Resources;
 
 public class SaveVehicleResource : BaseModelResource
 {
+    [Required]
     public bool IsRegistered { get; set; }
     public ContactResource Contact { get; set; }
 
-    [Required]
-    public Guid ModelId { get; set; }
+    [RequiredGuid]
+    public Guid? ModelId { get; set; }
     // Features reference M - M
     public ICollection<Guid>? Features { get; set; }
 

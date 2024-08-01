@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Endpoint.Application.Resources;
+using Endpoint.Resources;
 using Queries.Core.Domain;
 using Queries.Core.Domain.LinkTables;
 

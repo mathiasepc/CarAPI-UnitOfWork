@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace Endpoint.Application.Resources;
+namespace Endpoint.Resources;
 
 public class MakeResource : BaseModelResource
 {

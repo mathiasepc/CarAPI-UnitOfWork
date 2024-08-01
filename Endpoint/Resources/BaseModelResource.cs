@@ -1,5 +1,4 @@
-﻿
-namespace Endpoint.Application.Resources;
+﻿namespace Endpoint.Resources;
 
 public class BaseModelResource
 {
@@ -7,7 +6,7 @@ public class BaseModelResource
 
     public Guid Id
     {
-        get { return (Guid)_id; }
+        get { return _id; }
         set { _id = value; }
     }
     public BaseModelResource()
