@@ -20,7 +20,8 @@ export class VehicleListComponent implements OnInit {
     { title: 'Id' },
     { title: 'Make', key: 'make', isSortable: true },
     { title: 'Model', key: 'model', isSortable: true },
-    { title: 'Contact Name', key: 'contactName', isSortable: true }
+    { title: 'Contact name', key: 'contactName', isSortable: true },
+    { title: 'View model' }
   ];
 
   constructor(private vehicleService: VehicleService) { }

@@ -5,7 +5,6 @@ import { forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { SaveVehicle } from 'src/app/Models/saveVehicle';
 import { Vehicle } from 'src/app/Models/vehicle';
-import { animate } from '@angular/animations';
 
 @Component({
   selector: 'app-vehicle-form',
@@ -132,6 +131,19 @@ export class VehicleFormComponent implements OnInit {
         console.log(answer);
       },
     });
+  }
+
+  update() {
+    if (confirm('Er du sikker?')) {
+      this.vehicleService.update(this.vehicle.id, this.vehicle).subscribe({
+        next: (answer) => {
+          console.log(answer);
+        },
+        error: (error) => {
+          console.log(error.message);
+        },
+      });
+    }
   }
 
   delete(){

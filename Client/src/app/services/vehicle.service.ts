@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Environment } from '../Environment/Environment';
+import { SaveVehicle } from '../Models/saveVehicle';
 
 
 @Injectable({
@@ -25,8 +26,8 @@ export class VehicleService {
     return this.http.post(this.baseURL + 'Vehicles', vehicle);
   }
 
-  getVehicles(queryrObj: any): Observable<any> {
-    return this.http.get(this.baseURL + 'Vehicles?' + this.toQueryString(queryrObj));
+  getVehicles(queryObj: {}): Observable<any> {
+    return this.http.get(this.baseURL + 'Vehicles?' + this.toQueryString(queryObj));
   }
 
   // Konverterer et objekt til en query string.
@@ -48,10 +49,15 @@ export class VehicleService {
     return parts.join('&');
   }
 
-  getVehicle(id: any): Observable<any> {
+  getVehicle(id: string): Observable<any> {
     return this.http.get(this.baseURL + 'Vehicles/' + id);
   }
-  
+
+  update(id: string, vehicle: SaveVehicle): Observable<any>{
+    return this.http.put(this.baseURL + 'Vehicles/' + id, vehicle);
+  }
+
+
   delete(id: string): Observable<any>{
     return this.http.delete(this.baseURL + 'Vehicles/' + id);
   }
