@@ -1,9 +1,1 @@
-Vi laver Resource mappen for, at ikke at display detaljerne for implementationen.
-Vi laver derfor et "Interface". Samtidig kan man ændre på make og resources, uden problemer.
-
-Samligning:
-Hvis man har en dvd afspiller. Der har vi nogen knapper og en disk indgang. Man kan ændre indmaden, men for dem som requester til api'et,
-er det lige meget for, så længe de har knapperne og disk indgangen.
-
-
-Vi fjerne også relationerne med resources class'. Det fjerner Json objekt loops.
+Vi laver modelResource mappen for, at ikke at display alle detaljer når man skal have fat i objekter fra databasen.

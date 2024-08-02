@@ -5,38 +5,15 @@
 import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 
 @Component({
-  // Selector der bruges til at anvende componentet på andre sider
-  selector: 'pagination', 
-  template: `
-      <!-- Viser navigationen, hvis der er flere elementer end side størrelse -->
-      <nav *ngIf="totalItems > pageSize"> 
-          <ul class="pagination"> 
-              <!-- Deaktiver "tilbage"-knap, hvis på første side. -->
-              <li [class.disabled]="currentPage === 1"> 
-                  <a (click)="previous()"> 
-                      <span>&laquo;</span>
-                  </a>
-              </li>
-              <!-- Aktiv side og kalder changePage() metode ved klik -->
-              <li [class.active]="currentPage === page" *ngFor="let page of pages" (click)="changePage(page)"> 
-                  <a>{{ page }}</a>
-              </li>
-              <!-- Deaktiver "næste"-knap, hvis på sidste side -->
-              <li [class.disabled]="currentPage === pages.length"> 
-                  <a (click)="next()">
-                      <span>&raquo;</span> 
-                  </a>
-              </li>
-          </ul>
-      </nav>  
-  `,
-  styleUrls: ['./pagination.component.css']
+    selector: 'pagination', // Bemærk 'app-pagination' som selector
+    templateUrl: './pagination.component.html', // Korrekt brug af templateUrl
+    styleUrls: ['./pagination.component.css']
 })
 export class PaginationComponent implements OnChanges {
    // Input: Totalt antal elementer
-  @Input('total-items') totalItems: number = 0;
+  @Input('total-items') totalItems: number = 10;
   // Input: Antal elementer per side
-  @Input('page-size') pageSize: number = 0;    
+  @Input('page-size') pageSize: number = 5;    
   // Output: Udsender den nye side, når den ændres
   @Output('page-changed') pageChanged = new EventEmitter<number>(); 
   // Array til at holde side-numre

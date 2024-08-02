@@ -14,8 +14,10 @@ public class VehicleRepo : IVehicleRepo
         this.context = context;
     }
 
-    public async Task<IEnumerable<Vehicle>> GetVehicles(VehicleQuery queryObj)
+    public async Task<QueryResult<Vehicle>> GetVehicles(VehicleQuery queryObj)
     {
+        var result = new QueryResult<Vehicle>();
+
         // Ved at tilføje AsQueryable gør det muligt at hente data på database niveau fra variablen, senere i koden.
         var query = context.Vehicles
             .Include(v => v.Model)
@@ -31,20 +33,23 @@ public class VehicleRepo : IVehicleRepo
         // Object initialization: laver en mapning af sortering på kolonner for vehicle
         var columnsMap = new Dictionary<string, Expression<Func<Vehicle, object>>>()
         {
-            ["make"] = v => v.Model.Make.Name, // Mapning for 'make'
-            ["model"] = v => v.Model.Name, // Mapning for 'model'
-            ["contactName"] = v => v.Contact.Name // Mapning for 'contactName'
+            ["make"] = v => v.Model.Make.Name,
+            ["model"] = v => v.Model.Name,
+            ["contactName"] = v => v.Contact.Name 
         };
 
         query = query.ApplyOrdering(queryObj, columnsMap);
 
+        // Regner total items ud
+        result.TotalItems = await query.CountAsync();
+
         // Paging
         query = query.ApplyPaing(queryObj);
 
+        // Sætter items
+        result.Items = await query.ToListAsync();
 
-
-        // Her henter vi det data, som vi har brug for.
-        return await query.ToListAsync();
+        return result;
     }
 
     /// <summary>

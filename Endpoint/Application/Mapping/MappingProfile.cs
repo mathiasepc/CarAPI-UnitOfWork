@@ -30,8 +30,9 @@ public class MappingProfile : Profile
         CreateMap<ContactResource, Contact>();
         CreateMap<Contact, ContactResource>();
 
-        // Query
+        // Query objekter
         CreateMap<VehicleQueryResource, VehicleQuery>();
+        CreateMap(typeof(QueryResult<>), typeof(QueryResultResource<>));
 
 
         // API Resource to Domain

@@ -8,7 +8,7 @@ import { KeyValuePair } from 'src/app/Models/keyValuePair';
   styleUrls: ['./vehicle-list.component.css']
 })
 export class VehicleListComponent implements OnInit {
-  // Så vi selv kan styrer pageSize
+  // Så vi selv kan styrer pageSize.
   private readonly PAGE_SIZE = 5; 
 
   queryResult: any = {};
@@ -35,10 +35,11 @@ export class VehicleListComponent implements OnInit {
   // Her sætter vi this.vehicles udfra vores query
   private populateVehicles(){
     this.vehicleService.getVehicles(this.query)
-    .subscribe(vehicles => this.queryResult = vehicles);
+    .subscribe(result => this.queryResult = result );
   }
 
   onFilterChange() {
+    // Når filter ændres sættes page til 1
     this.query.page = 1; 
     this.populateVehicles();
   }
@@ -48,6 +49,7 @@ export class VehicleListComponent implements OnInit {
       page: 1,
       pageSize: this.PAGE_SIZE
     };
+    
     this.populateVehicles();
   }
 
