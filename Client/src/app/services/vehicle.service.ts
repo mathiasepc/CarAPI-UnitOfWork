@@ -18,7 +18,6 @@ export class VehicleService {
     return this.http.get<any[]>(this.baseURL + 'Make');
   }
 
-  //tester
   getFeatures(): Observable<any[]>{
     return this.http.get<any[]>(this.baseURL + 'Feature');
   }
