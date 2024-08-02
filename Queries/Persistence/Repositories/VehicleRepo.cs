@@ -18,7 +18,7 @@ public class VehicleRepo : IVehicleRepo
     {
         var result = new QueryResult<Vehicle>();
 
-        // Ved at tilføje AsQueryable gør det muligt at hente data på database niveau fra variablen, senere i koden.
+        // Ved at tilføje AsQueryable gør det muligt at tilføje betingelser på database niveau fra variablen, senere i koden.
         var query = context.Vehicles
             .Include(v => v.Model)
             .ThenInclude(v => v.Make)
