@@ -24,10 +24,9 @@ public class UnitOfWork : IUnitOfWork
     public IMakeRepo MakeRepo { get; private set; }
     public IFeatureRepo FeatureRepo { get; private set; }
 
-    public int Complete()
+    public async Task<int> CompleteASync()
     {
-        // Gem ændringer asynkront
-        return _context.SaveChanges();
+        return await _context.SaveChangesAsync();
     }
 
     public void Dispose()

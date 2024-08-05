@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Endpoint.DTO.Resources;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Queries.Core;
 using Queries.Core.Domain;

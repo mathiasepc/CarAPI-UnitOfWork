@@ -1,8 +1,10 @@
 
 <h2>Vehicles</h2>
-<p>
-    <a class="btn btn-primary" [routerLink]="['/vehicles/new']">New Vehicle</a>
-</p>
+<div *ngIf="isAuthenticated$ | async">
+    <p>
+        <a class="btn btn-primary" [routerLink]="['/vehicles/new']">New Vehicle</a>
+    </p>
+</div>
 <div class="custom-well">
     <div class="form-group">
         <label for="make">Make</label>

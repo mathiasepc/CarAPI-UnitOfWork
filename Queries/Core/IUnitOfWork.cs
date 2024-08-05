@@ -7,5 +7,5 @@ public interface IUnitOfWork : IDisposable
     public IVehicleRepo VehicleRepo { get; }
     public IMakeRepo MakeRepo { get; }
     public IFeatureRepo FeatureRepo { get; }
-    int Complete();
+    Task<int> CompleteASync();
 }

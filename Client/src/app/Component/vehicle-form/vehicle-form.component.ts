@@ -5,6 +5,7 @@ import { forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { SaveVehicle } from 'src/app/Models/saveVehicle';
 import { Vehicle } from 'src/app/Models/vehicle';
+import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-vehicle-form',
@@ -12,6 +13,8 @@ import { Vehicle } from 'src/app/Models/vehicle';
   styleUrls: ['./vehicle-form.component.css'],
 })
 export class VehicleFormComponent implements OnInit {
+  // true = hvis du er logget ind. false = hvis du ikke er logget ind.
+  isAuthenticated$ = this.auth.isAuthenticated$;
   makes: any[] = [];
   models: any[] = [];
   features: any[] = [];
@@ -28,7 +31,8 @@ export class VehicleFormComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private vehicleService: VehicleService
+    private vehicleService: VehicleService,
+    private auth: AuthService
   ) {
     
     // Konfigurere at det er id, som skal igennem ruten

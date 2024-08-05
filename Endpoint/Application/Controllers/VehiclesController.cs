@@ -19,6 +19,14 @@ public class VehiclesController : ControllerBase
         this.unitOfWork = unitOfWork;
     }
 
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetVehicle(Guid id)
+    {
+        return id != Guid.Empty
+            ? Ok(mapper.Map<Vehicle, VehicleResource>(await unitOfWork.VehicleRepo.GetVehicleById(id, includeRelated: true)))
+            : BadRequest();
+    }
+
     [HttpGet]
     public async Task<QueryResultResource<VehicleResource>> GetVehicles([FromQuery] VehicleQueryResource filterResource)
     {
@@ -29,15 +37,8 @@ public class VehiclesController : ControllerBase
         return mapper.Map<QueryResult<Vehicle>, QueryResultResource<VehicleResource>>(queryResult);
     }
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetVehicle(Guid id)
-    {
-        return id != Guid.Empty
-            ? Ok(mapper.Map<Vehicle, VehicleResource>(await unitOfWork.VehicleRepo.GetVehicleById(id, includeRelated: true)))
-            : BadRequest();
-    }
-
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> CreateVehicle([FromBody] SaveVehicleResource vehicleResource)
     {
         // Mapper SaveVehicleResource til Vehicle
@@ -45,7 +46,7 @@ public class VehiclesController : ControllerBase
 
         unitOfWork.VehicleRepo.AddVehicle(vehicle);
 
-        var result = unitOfWork.Complete();
+        var result = await unitOfWork.CompleteASync();
 
         return result > 0
             ? Ok(mapper.Map<Vehicle, VehicleResource>(await unitOfWork.VehicleRepo.GetVehicleById(vehicle.Id)))
@@ -53,6 +54,7 @@ public class VehiclesController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize]
     public async Task<IActionResult> UpdateVehicle(Guid id, [FromBody] SaveVehicleResource vehicleResource)
     {
         var vehicle = await unitOfWork.VehicleRepo.GetVehicleById(id, true);
@@ -62,7 +64,7 @@ public class VehiclesController : ControllerBase
         // Merger vehicleResource og vehicle værdierne sammen, i Vehicle
         mapper.Map(vehicleResource, vehicle);
 
-        var result = unitOfWork.Complete();
+        var result = await unitOfWork.CompleteASync();
 
         return result > 0
             ? Ok(mapper.Map<Vehicle, VehicleResource>(await unitOfWork.VehicleRepo.GetVehicleById(vehicle.Id)))
@@ -70,6 +72,7 @@ public class VehiclesController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize]
     public async Task<IActionResult> DeleteVehicle(Guid id)
     {
         // includeRelated: false = vi henter ikke relationer.
@@ -79,7 +82,7 @@ public class VehiclesController : ControllerBase
 
         unitOfWork.VehicleRepo.RemoveVehicle(vehicle);
 
-        var result = unitOfWork.Complete();
+        var result = await unitOfWork.CompleteASync();
 
         return result > 0
             ? Ok(mapper.Map<Vehicle, VehicleResource>(vehicle))

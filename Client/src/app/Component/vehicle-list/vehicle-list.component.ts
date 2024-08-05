@@ -1,5 +1,6 @@
 import { VehicleService } from '../../services/vehicle.service';
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '@auth0/auth0-angular';
 import { KeyValuePair } from 'src/app/Models/keyValuePair';
 
 @Component({
@@ -8,6 +9,8 @@ import { KeyValuePair } from 'src/app/Models/keyValuePair';
   styleUrls: ['./vehicle-list.component.css']
 })
 export class VehicleListComponent implements OnInit {
+  // true = hvis du er logget ind. false = hvis du ikke er logget ind.
+  isAuthenticated$ = this.auth.isAuthenticated$;
   // Så vi selv kan styrer pageSize.
   private readonly PAGE_SIZE = 5; 
 
@@ -24,7 +27,9 @@ export class VehicleListComponent implements OnInit {
     { title: 'View model' }
   ];
 
-  constructor(private vehicleService: VehicleService) { }
+  constructor(private vehicleService: VehicleService,
+    private auth: AuthService
+  ) { }
 
   ngOnInit() { 
     this.vehicleService.getMakes()

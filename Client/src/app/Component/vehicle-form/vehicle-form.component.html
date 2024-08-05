@@ -56,7 +56,9 @@
         <label for="contactEmail">Email</label>
         <input id="contactEmail" type="text" class="form-control" [(ngModel)]="vehicle.contact.email" name="contactEmail">
     </div>
-    <button *ngIf="!vehicle.id" class="btn btn-primary">Send</button>
-    <button *ngIf="vehicle.id" class="btn btn-primary" type="button" (click)="update()">Update</button>
-    <button *ngIf='vehicle.id' class="btn btn-danger" type="button" (click)="delete()">Delete</button>
+    <div *ngIf="isAuthenticated$ | async">
+        <button *ngIf="!vehicle.id" class="btn btn-primary">Send</button>
+        <button *ngIf="vehicle.id" class="btn btn-primary" type="button" (click)="update()">Update</button>
+        <button *ngIf='vehicle.id' class="btn btn-danger" type="button" (click)="delete()">Delete</button>
+    </div>
 </form>

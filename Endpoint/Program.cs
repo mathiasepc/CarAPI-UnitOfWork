@@ -18,7 +18,7 @@ builder.Services.AddCors(options =>
         builder =>
         {
             builder
-            .WithOrigins("http://localhost:8080")
+            .WithOrigins("http://localhost:4200")
             .AllowAnyMethod()
             .AllowAnyHeader()
             .AllowCredentials();
@@ -51,17 +51,21 @@ builder.Services.AddDbContext<PlutoContext>(options =>
 });
 #endregion
 
+#region Controllers
 // Tilføj Controller.
 builder.Services.AddControllers();
 builder.Services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
 builder.Services.AddScoped<IVehicleRepo, VehicleRepo>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+#endregion
 
+#region Automapper
 //Tilføjer AutoMapper.
 builder.Services.AddAutoMapper(cfg =>
 {
     cfg.AddProfile<MappingProfile>(); // Tilføjer din MappingProfile
 }, typeof(StartupBase));
+#endregion
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
