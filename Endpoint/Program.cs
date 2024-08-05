@@ -1,4 +1,7 @@
 using Endpoint.Application.Mapping;
+using Endpoint.Auth;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Queries.Core;
 using Queries.Core.IRepositories;
@@ -7,8 +10,50 @@ using Queries.Persistence.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
+#region Cors
+// Tillader alle kald.
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("policy",
+        builder =>
+        {
+            builder
+            .WithOrigins("http://localhost:8080")
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials();
+        });
+});
+#endregion
+
+#region Auth0
+var domain = $"https://{builder.Configuration["Auth0:Domain"]}/";
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+
+.AddJwtBearer(options =>
+{
+    options.Authority = domain;
+    options.Audience = builder.Configuration["Auth0:Audience"];
+});
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("read:messages", policy => policy.Requirements.Add(new HasScopeRequirement("read:messages", domain)));
+});
+#endregion
+
+#region Database
+builder.Services.AddDbContext<PlutoContext>(options =>
+{
+    // Tilføj ConnectionString
+    options.UseSqlServer(builder.Configuration.GetConnectionString("MathiasConnection")); 
+    options.EnableSensitiveDataLogging();
+});
+#endregion
+
 // Tilføj Controller.
 builder.Services.AddControllers();
+builder.Services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
 builder.Services.AddScoped<IVehicleRepo, VehicleRepo>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
@@ -17,23 +62,6 @@ builder.Services.AddAutoMapper(cfg =>
 {
     cfg.AddProfile<MappingProfile>(); // Tilføjer din MappingProfile
 }, typeof(StartupBase));
-
-// Tilføjer databasen.
-builder.Services.AddDbContext<PlutoContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("MathiasConnection")); // Tilføj ConnectionString
-    options.EnableSensitiveDataLogging();
-});
-
-// Tillader alle kald.
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("policy",
-        builder =>
-        {
-            builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
-        });
-});
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -50,11 +78,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
-
 //Tilføjer policy til app.
 app.UseCors("policy");
-
+app.UseAuthentication();
+app.UseAuthorization(); 
 
 app.MapControllers();
 

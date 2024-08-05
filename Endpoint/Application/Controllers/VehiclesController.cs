@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Queries.Core;
 using Queries.Core.Domain;
 using Endpoint.DTO.Resources;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Endpoint.Application.Controllers;
 
