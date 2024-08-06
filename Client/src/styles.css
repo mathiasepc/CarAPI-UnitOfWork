@@ -1,1 +1,26 @@
+/* Sørg for, at body og html fylder hele højden */
+html, body {
+    height: 100%;
+    margin: 0;
+}
 
+/* Yderligere styling for custom-well og table */
+.custom-well {
+    margin-bottom: 20px; 
+    padding: 20px; 
+    background-color: #9cb3d1; 
+    border-radius: 5px; 
+}
+
+/* Outer div skal fylde hele højden og have baggrundsfarve */
+.outer-bg {
+    min-height: 100vh;
+    /* background-color: #535a0f;  */
+    display: flex;
+}
+
+/* Container skal stadig have indre padding og margin */
+.container {
+    background-color: white; 
+    padding: 20px; 
+}

@@ -2,4 +2,16 @@
     .nav-item.dropdown:hover .dropdown-menu {
         display: block;
     }
+} 
+
+
+div button {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+} 
+
+nav {
+    padding-left: 15px;  /* Juster værdierne efter behov */
+    padding-right: 15px;
 }

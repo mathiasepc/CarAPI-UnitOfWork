@@ -35,12 +35,11 @@ import { AuthModule } from '@auth0/auth0-angular';
     // konfigurer auth parameter for web app 
     AuthModule.forRoot({
       domain: 'dev-66ke8ng4sr6cp2ms.us.auth0.com',
-      clientId: 'dp6KTAAtPhTXL3HpONGshEMfDkqG3SH0',
+      clientId: 'Rg8p9AsiK4CWv459DK6sTV9db6Rw4t2m',
       authorizationParams: {
-        // hvis ikke logget ind redirect.
         redirect_uri: window.location.origin,
         // api audience.
-        audience: 'https://api.car.com'
+        // audience: 'https://api.car.com'
       }
     }),
   ],
