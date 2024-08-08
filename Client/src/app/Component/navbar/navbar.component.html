@@ -13,14 +13,14 @@
                 </span>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" [routerLink]="['/']">Biler</a>
-                    <a *ngIf="auth.isAuthenticated$ | async" class="dropdown-item"
+                    <a *ngIf="authenticated$.isAuthenticated$ | async" class="dropdown-item"
                         [routerLink]="['/vehicles/new']">Tilføj bil</a>
                 </div>
             </li>
         </ul>
-        <button class="btn btn-primary" *ngIf="!(auth.isAuthenticated$| async)" (click)="auth.loginWithRedirect()">Log ind</button>
+        
+        <button class="btn btn-primary" *ngIf="!(authenticated$.isAuthenticated$| async)" (click)="authenticated$.loginWithPopup()">Log ind</button>
     
-        <button class="btn btn-danger" *ngIf="auth.isAuthenticated$ | async" (click)="auth.logout()">Log ud</button>
+        <button class="btn btn-danger" *ngIf="authenticated$.isAuthenticated$ | async" (click)="authenticated$.logout()">Log ud</button>
     </div>
-
 </nav>

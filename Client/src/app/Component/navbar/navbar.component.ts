@@ -7,6 +7,7 @@ import { AuthService } from '@auth0/auth0-angular';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
-  constructor(public auth: AuthService) {}
+    authenticated$ = this.auth;
 
+  constructor(private auth: AuthService) {}
 }

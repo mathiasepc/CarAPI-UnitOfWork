@@ -22,7 +22,8 @@ export class VehicleService {
     return this.http.get<any[]>(this.baseURL + 'Feature');
   }
 
-  create(vehicle: {}): Observable<any>{
+  create(vehicle: SaveVehicle): Observable<any>{
+    console.log("service");
     return this.http.post(this.baseURL + 'Vehicles', vehicle);
   }
 
@@ -54,6 +55,7 @@ export class VehicleService {
   }
 
   update(id: string, vehicle: SaveVehicle): Observable<any>{
+    console.log("service");
     return this.http.put(this.baseURL + 'Vehicles/' + id, vehicle);
   }
 

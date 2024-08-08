@@ -21,7 +21,6 @@ public class FeatureController : ControllerBase
     }
 
     [HttpGet]
-    //[Authorize]
     public async Task<ActionResult<IEnumerable<KeyValuePairResource>>> GetFeatured()
     {
         var features = await unitOfWork.FeatureRepo.GetFeatured();

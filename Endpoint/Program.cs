@@ -3,6 +3,7 @@ using Endpoint.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Queries.Core;
 using Queries.Core.IRepositories;
 using Queries.Persistence;
@@ -28,17 +29,24 @@ builder.Services.AddCors(options =>
 
 #region Auth0
 var domain = $"https://{builder.Configuration["Auth0:Domain"]}/";
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 .AddJwtBearer(options =>
 {
     options.Authority = domain;
     options.Audience = builder.Configuration["Auth0:Audience"];
+    //options.TokenValidationParameters = new TokenValidationParameters
+    //{
+    //    NameClaimType = "name",
+    //    RoleClaimType = "role",
+    //};
 });
 
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("read:messages", policy => policy.Requirements.Add(new HasScopeRequirement("read:messages", domain)));
+    //options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+    //options.AddPolicy("UserOnly", policy => policy.RequireRole("User"));
 });
 #endregion
 
@@ -54,7 +62,7 @@ builder.Services.AddDbContext<PlutoContext>(options =>
 #region Controllers
 // Tilføj Controller.
 builder.Services.AddControllers();
-builder.Services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
+//builder.Services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
 builder.Services.AddScoped<IVehicleRepo, VehicleRepo>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 #endregion

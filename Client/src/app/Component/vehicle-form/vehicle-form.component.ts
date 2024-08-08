@@ -1,6 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, 
+  OnInit 
+} from '@angular/core';
 import { VehicleService } from 'src/app/services/vehicle.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, 
+  Router 
+} from '@angular/router';
 import { forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { SaveVehicle } from 'src/app/Models/saveVehicle';
@@ -139,6 +143,7 @@ export class VehicleFormComponent implements OnInit {
 
   update() {
     if (confirm('Er du sikker?')) {
+      console.log("id: ", this.vehicle.id);
       this.vehicleService.update(this.vehicle.id, this.vehicle).subscribe({
         next: (answer) => {
           console.log(answer);
