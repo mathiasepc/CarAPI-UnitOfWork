@@ -1,5 +1,4 @@
 import { FormsModule } from '@angular/forms';
-import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 
@@ -11,8 +10,18 @@ import { VehicleListComponent } from './Component/vehicle-list/vehicle-list.comp
 import { PaginationComponent } from './Shared/pagination/pagination/pagination.component';
 
 // Providers
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { NOTYF, notyfFactory } from './Shared/notyf.token';
+import { 
+  ErrorHandler, 
+  NgModule 
+} from '@angular/core';
+import { 
+  HTTP_INTERCEPTORS, 
+  HttpClientModule 
+} from '@angular/common/http';
+import { 
+  NOTYF, 
+  notyfFactory 
+} from './Shared/notyf.token';
 import { VehicleService } from './services/vehicle.service';
 import { appErrorHandler } from './app.error-handler';
 import {
@@ -50,12 +59,11 @@ import { AuthInterceptor } from './services/auth-interceptor.service';
       // The AuthHttpInterceptor configuration
       httpInterceptor: {
         allowedList: [
-          // Attach access tokens to any calls to '/api' (exact match)
-          '/api',
+          // // Attach access tokens to any calls to '/api' (exact match)
+          // '/api',
 
-          // Attach access tokens to any calls that start with '/api/'
-          '/api/*',
-
+          // // Attach access tokens to any calls that start with '/api/'
+          // '/api/*',
           // Match anything starting with /api/vehicles, but also allow for anonymous users.
           {
             uri: '/api/Vehicles/*',
@@ -105,7 +113,7 @@ import { AuthInterceptor } from './services/auth-interceptor.service';
     { provide: ErrorHandler, useClass: appErrorHandler },
     // Dette tilhører en flot toasty notifikation.
     { provide: NOTYF, useFactory: notyfFactory },
-    // HTTP_INTERCEPTORS er til at kalde beskyttet API. multi er for at fortælle, at der kan være flere interceptors
+    // HTTP_INTERCEPTORS er til at kalde beskyttet API. multi er for at fortælle, at der kan være flere api'er
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     // TIlføjer mine servies
     VehicleService,
