@@ -9,6 +9,7 @@ namespace Queries.Core.Domain;
 /// <typeparam name="T">Typen af objekter i resultatsættet.</typeparam>
 public class QueryResult<T>
 {
+    // Bruges bl.a. til at kunne lave pagning
     public int TotalItems { get; set; }
     public IEnumerable<T> Items { get; set; }
 }

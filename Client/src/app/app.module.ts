@@ -90,6 +90,7 @@ import { AuthInterceptor } from './services/auth-interceptor.service';
               authorizationParams: {
                 audience: 'https://api.UnitOfWork.com',
                 scope: 'write:vehicles',
+                // scope: 'write:admin',  
               },
             },
           },

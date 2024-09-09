@@ -24,7 +24,7 @@ export class AuthInterceptor implements HttpInterceptor {
         // til en ny Observable (HTTP-anmodningen med token)
         switchMap(idToken => {
           // Log tokenen til debugging
-          // console.log("idToken: ", idToken);
+          console.log("idToken: ", idToken);
   
           // Klon den oprindelige HTTP-anmodning og tilføj Authorization-headeren med Bearer token
           const authReq = req.clone({
