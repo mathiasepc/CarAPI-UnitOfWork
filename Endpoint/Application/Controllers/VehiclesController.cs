@@ -39,7 +39,7 @@ public class VehiclesController : ControllerBase
 
     [HttpPost]
     //[Authorize(Policy = "AdminOnly")]
-    //[Authorize]
+    [Authorize]
     public async Task<IActionResult> CreateVehicle([FromBody] SaveVehicleResource vehicleResource)
     {
         // Mapper SaveVehicleResource til Vehicle
