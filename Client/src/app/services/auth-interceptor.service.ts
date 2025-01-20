@@ -23,9 +23,6 @@ export class AuthInterceptor implements HttpInterceptor {
         // switchMap bruges til at skifte fra den første Observable (token-forespørgsel)
         // til en ny Observable (HTTP-anmodningen med token)
         switchMap(idToken => {
-          // Log tokenen til debugging
-          console.log("idToken: ", idToken);
-  
           // Klon den oprindelige HTTP-anmodning og tilføj Authorization-headeren med Bearer token
           const authReq = req.clone({
             setHeaders: {
@@ -33,6 +30,10 @@ export class AuthInterceptor implements HttpInterceptor {
               Authorization: `Bearer ${idToken}` 
             }
           });
+
+          // Log tokenen til debugging
+          console.log("idToken: ", authReq.headers);
+  
   
           // Send den modificerede HTTP-anmodning videre til næste handler i rækken.
           return next.handle(authReq)

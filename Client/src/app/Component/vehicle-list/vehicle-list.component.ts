@@ -32,7 +32,10 @@ export class VehicleListComponent implements OnInit {
 
   ngOnInit() { 
     this.vehicleService.getMakes()
-      .subscribe(makes => this.make = makes);
+      .subscribe(makes => {
+        
+        this.make = makes
+      });
 
     this.populateVehicles();
   }

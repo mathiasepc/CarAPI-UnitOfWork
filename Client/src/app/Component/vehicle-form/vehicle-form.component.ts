@@ -64,6 +64,7 @@ export class VehicleFormComponent implements OnInit {
       );
   }
 
+
     // Bruger forkJoin til at hente flere async metoder, som leverer data.
     // Hvis en fejler, fejler alle.
     forkJoin(sources).subscribe({

@@ -1,5 +1,4 @@
 using Endpoint.Application.Mapping;
-using Endpoint.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
@@ -42,12 +41,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     //};
 });
 
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("read:messages", policy => policy.Requirements.Add(new HasScopeRequirement("read:messages", domain)));
-    //options.AddPolicy("AdminOnly", policy => policy.RequireRole("admin"));
-    //options.AddPolicy("UserOnly", policy => policy.RequireRole("user"));
-});
 #endregion
 
 #region Database
@@ -62,8 +55,6 @@ builder.Services.AddDbContext<PlutoContext>(options =>
 #region Controllers
 // Tilføj Controller.
 builder.Services.AddControllers();
-//builder.Services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
-builder.Services.AddScoped<IVehicleRepo, VehicleRepo>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 #endregion
 

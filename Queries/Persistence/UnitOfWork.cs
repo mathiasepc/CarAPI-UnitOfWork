@@ -11,7 +11,8 @@ namespace Queries.Persistence;
 public class UnitOfWork : IUnitOfWork
 {
     private readonly PlutoContext _context;
-    
+
+    // Sikrer, at alle repositories deler samme DbContext-instans, så operationer kan udføres som en samlet enhed
     public UnitOfWork(PlutoContext context)
     {
         _context = context;
