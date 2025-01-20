@@ -32,7 +32,7 @@ export class AuthInterceptor implements HttpInterceptor {
           });
 
           // Log tokenen til debugging
-          console.log("idToken: ", authReq.headers);
+          //console.log("idToken: ", idToken);
   
   
           // Send den modificerede HTTP-anmodning videre til næste handler i rækken.
