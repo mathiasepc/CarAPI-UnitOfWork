@@ -1,12 +1,8 @@
 using Endpoint.Application.Mapping;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using Queries.Core;
-using Queries.Core.IRepositories;
 using Queries.Persistence;
-using Queries.Persistence.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
